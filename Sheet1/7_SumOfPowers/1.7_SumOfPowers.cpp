@@ -8,22 +8,50 @@
 */
 
 #include <iostream>
+#include <cctype>
 #include <cmath>
 #include <string>
 
 int getNumber(std::string message);
 int computeSumOfPowers(int n, int m);
+bool getYesOrNo();
 
 int main(){
     int result;
 
-    int n = getNumber("Enter n (last value of the summation): ");
-    int m = getNumber("Enter m (power at which the numbers will be raised): ");
-    result = computeSumOfPowers(n, m);
-
-    std::cout << "Sum of number raised to" << m << ", from 1 to " << n << " = " << result << std::endl;
-
+    while (true){
+        std::cout << " "<< std::endl;
+        int n = getNumber("Enter n (last value of the summation): ");
+        int m = getNumber("Enter m (power at which the numbers will be raised): ");
+        result = computeSumOfPowers(n, m);
+        std::cout << "Sum of number raised to" << m << ", from 1 to " << n << " = " << result << std::endl;
+        std::cout << "Do you want to perform another calculation?" << std::endl;
+        bool no = getYesOrNo();
+        if (no) break;
+    }
     return 0;
+}
+
+bool getYesOrNo(){ // Buggy function.
+    bool choice;
+    std::string line;
+    while (true){
+        std::cout <<  "Yes or No: ";
+        getline(std::cin, line);
+        if ((int) line.length() > 0) {
+            char first = tolower(line[0]);
+            if (first == 'y') {
+                choice = true;
+                break;
+            } else if (first == 'n') {
+                choice = false;
+                break;
+            }
+        }
+        std::cout << "Invalid Yes or No answer, try again." << std::endl;
+        line = "";
+    }
+    return choice;
 }
 
 
