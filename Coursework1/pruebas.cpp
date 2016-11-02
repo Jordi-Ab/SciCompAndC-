@@ -22,7 +22,7 @@ double* substractV(double *v1, double *v2, int size);
 double** aSquareMatrix(int size);
 void testBackSubstitution();
 void testRowPivoting();
-bool _isAlmostZero(double number);
+//bool _isAlmostZero(double number);
 
 
 int main(){
@@ -30,6 +30,8 @@ int main(){
 	testRowPivoting();
 	std::cout << _isAlmostZero(-0.0) <<std::endl;
 	std::cout << (0.0 <= 1.0e-10) << std::endl;
+	double** a_matrix = createRandomMatrix(6,6);
+	printMat(a_matrix, 6,6);
 }
 
 void testRowPivoting(){
@@ -51,13 +53,13 @@ void testAxEqb(){
 	
 }
 
-bool _isAlmostZero(double number){
+/*bool _isAlmostZero(double number){
 	if (number < 0){ // I make cases for negative number because abs(number) truncates the number.
 		return (number >= -1.0e-10);
 	}else{
 		return (number <= 1.0e-10);
 	}
-}
+}*/
 
 void testBackSubstitution(){
 	double** upper_t = createRandomUpperT(4,4);

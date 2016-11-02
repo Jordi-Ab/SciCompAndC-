@@ -1,5 +1,6 @@
-
+#import "back_substitution.cpp"
 #import "row_pivoting.cpp"
+#include <stdexcept>
 
 /*
 Function: _augmentMatrix
@@ -36,7 +37,7 @@ Receives:
 	."row1" -> First row, a vector.
 	."row2" -> Second row, a vector.
 	."factor" -> an integer
-	."size" -> number of entries in both vectors.
+	."vecs_size" -> number of entries in both vectors.
 
 Performs the elimination step between two rows.
 Returns: a new vector containing the result of the elimination step.
@@ -47,24 +48,28 @@ This will zero out the first entry of row 1.
 double* _eliminate(double *row1, double *row2, double factor, int vecs_size);
 
 /*
-Function: _eliminateRows
+Function: _eliminateRowsUnderneath
 	*Intended only for internal usage of solveAxEqB.
-Usage: _eliminateRows(a_matrix, current_row, size);
+Usage: _eliminateRowsUnderneath(a_matrix, current_row, 4, 5);
 -----------------------------------------------------
 Receives:
 	."matrix" -> Matrix you want to perform elimination.
 	."position" -> Current pivot position. Working with square matrices,
 	so position has coordinates (position, position) inside the matrix.
-	."size" -> size of the matrix. Working with square matrices, so
-	matrix has dimensions size x size.
+	."n_rows" -> Number of rows in the matrix.
+	."n_cols" -> Number of columns in the matrix.
 
-Performs the elimination step on each subsequent row from
-"position" downwards, leaving the column fixed.
+Performs the elimination step on each row located underneath
+"position", leaving the column fixed.
 
 Has no return value, so it mutates the given matrix.
 
 *Assumes the pivot is in its correct place, so it will take the
 pivot at (position, position).
+
+* Will raise a runtime_error if one of the elimination steps results in a row
+of zeros. That is, the matrix has a dependant row. Hence the matrix is not
+invertible, and the system has no solution.
 */
 void _eliminateRowsUnderneath(double** matrix, int position, int n_rows, int n_cols);
 
@@ -77,9 +82,34 @@ Receives a number.
 Returns true if the given number is a computer zero.
 i.e. Number is less that 1e-10
 */
-bool _isAlmostZero(double number);
+bool isAlmostZero(double number, double error_tol = 1e-10);
 
-bool _isVectorAlmostZero(double* vector, int size);
+
+/*
+Function: _isVectorAlmostZero
+	*Intended only for internal usage of solveAxEqB.
+Usage: bool flag = _isVectorAlmostZero(a_vector, size);
+-----------------------------------------------------
+Receives a vector, and the size of the vector.
+Iterates through the elements of the vector, testing if the elements are zero,
+or close to zero (less than 1e-10).
+
+Returns true if all the elements of the given vector are computer zeros.
+*/
+bool isVectorAlmostZero(double* vector, int size, double error_tol = 1e-10);
+
+/*
+Function: toUpperTriangular
+Usage: toUpperTriangular(a_matrix, 4, 5);
+-----------------------------------------------------
+Receives a matrix, the number of rows, and the number of columns
+of the matrix.
+
+Takes the matrix to its Upper Triangular Form.
+
+Overwrites the given matrix.
+*/
+void toUpperTriangular(double** matrix, int n_rows, int n_cols);
 
 /*------------Main Function of this script.----------------*/
 
@@ -98,15 +128,19 @@ Returns x, a vector -> solution of the system
 Performs this by Gaussian Elimination with Partial Pivoting.
 
 */
-
-void toUpperTriangular(double** matrix, int n_rows, int n_cols);
-
 double* solveAxEqB(double** A, double* b, int size){
 	// Remember to add the case when infinite many solutions.
 	double* result; 
 	double** aug_A = _augmentMatrix(A, b, size, size);
-	toUpperTriangular(aug_A, size, size+1); // size+1 because we are working with the augmented matrix, which now has size+1 columns.
-	result = backSubstitution(aug_A, size, size+1);
+
+	try{ // Try taking matrix to upper triangular form
+		toUpperTriangular(aug_A, size, size+1); // size+1 because we are working with the augmented matrix, which now has size+1 columns.
+	}catch (const std::runtime_error& problem){	// If matrix has a linearly dependent row.
+		std::cout << problem.what() << std::endl; // Prints out the error message.
+		return NULL; // Return pointer to NULL.
+	}
+
+	result = backSubstitution(aug_A, size, size+1); 
 	return result;
 }
 
@@ -126,29 +160,30 @@ void _eliminateRowsUnderneath(double** matrix, int position, int n_rows, int n_c
 	for (int row=position+1; row<n_rows; row++){
 		double* next_row = matrix[row];
 		double first_element = next_row[position];
-		if (!_isAlmostZero(first_element)){ // If the element is zero, or almost zero, there's no need to eliminate the row.
+		if (!isAlmostZero(first_element)){ // If the element is zero, or almost zero, there's no need to eliminate the row.
 			double factor = first_element/pivot_entry; 
 			double* new_row = _eliminate(next_row, pivot_row, factor, n_cols); 
 			// if new_row is a row of pure zeros, then matrix is not invertible, or has infinite solutions.
+			if (isVectorAlmostZero(new_row, n_rows)) throw std::runtime_error("System is either not invertible, or has infinte solutions.");
 			matrix[row] = new_row; // Overwite the current row with the result of the elimination step.
 		}
 	}
 }
 
-bool _isAlmostZero(double number){
+bool isAlmostZero(double number, double error_tol){
 	if (number < 0){ // I make cases for negative number because abs(number) rounds the number.
-		return (number >= -1.0e-10);
+		return (number >= -error_tol);
 	}else{
-		return (number <= 1.0e-10);
+		return (number <= error_tol);
 	}
 }
 
-bool _isVectorAlmostZero(double* vector, int size){
+bool isVectorAlmostZero(double* vector, int size, double error_tol){
 	bool value = true;
 	for (int i=0; i<size; i++){
-		entry = vector[entry];
+		double entry = vector[i];
 		// If any of its entries is not a computer zero, return false i.e. not a zeros vector.
-		if(!_isAlmostZero(entry)) return false; 
+		if(!isAlmostZero(entry, error_tol)) return false; 
 	}
 	return value; // After iterating through all entries, all of them are computer zeros.
 }
