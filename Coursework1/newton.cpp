@@ -1,8 +1,17 @@
-#include <stdexcept>
+
 #import <iostream>
+#import <cmath>
 #include "solve_ax_eq_b.cpp"
 
-void _printV(double *vector, int size){
+double l2Norm(double* a_vector, int size){
+	double norm = 0.0;
+    for (int i=0; i<size; i++){
+        norm += pow(a_vector[i],2.0);
+    }
+    return sqrt(norm);
+}
+
+void printV(double *vector, int size){
 	if(vector == NULL){
 		std::cout << "NULL vector" << std::endl;
 	}else{
@@ -33,46 +42,30 @@ double* _copy(double* a_vector, int size){
 	return new_vec;
 }
 
-void _newtonsMethod(double* (f)(double*), 
+
+double* newtonsMethod(double* (f)(double*), 
 						double** (Jf)(double*), 
 						double* x_vec, int dim,
-						double error_tol,
-						int max_iter){
+						double error_tol=1e-6,
+						int max_iter=100){
+
 	double iterations = 0;
-	while (true){
-		std::cout<< "Iteration: " << iterations << std::endl;
-		double* step = solveAxEqB((Jf)(x_vec), (f)(x_vec), dim);
-		x_vec=_substractV(x_vec, step, dim);
-		std::cout<< "x_vec: " << iterations << std::endl;
-		_printV(x_vec, dim);
-		iterations += 1;
-		if(iterations >= max_iter){
-			std::runtime_error(
-			"Newtons Method exceeded number of iterations.");
-		}
-		// function isVectorAlmostZero is in "solve_ax_eq_b.cpp"
-		std::cout<< "step: " << std::endl;
-		_printV(step, dim);
-		std::cout<< "isAlmostZero?: "<< isVectorAlmostZero(step, error_tol) << std::endl;
-		if(isVectorAlmostZero(step, error_tol)) break; // bug in is almost zero
-	}
-}
-
-double* newton(double* (f)(double*), 
-			double** (Jf)(double*), 
-			double* x_vec, int dim,
-			double error_tol=1e-6,
-			int max_iter = 100){
-
 	double* result = _copy(x_vec, dim);
+	double* step;
 
-	try{ 
-		_newtonsMethod(f,Jf,result,dim,error_tol, max_iter); 
-		std::cout << "After newton converged:" << std::endl;
-		_printV(result, dim);
-	}catch (const std::runtime_error& problem){	// Convergence failure.
-		std::cout << problem.what() << std::endl; // Prints out the error message.
-		return NULL; // Return a pointer to NULL.
+	while (true){
+
+		step = solveAxEqB((Jf)(result), (f)(result), dim);
+		if(l2Norm(step, dim)<error_tol) break;
+		
+		result=_substractV(result, step, dim);
+
+		iterations++;
+
+		if(iterations >= max_iter){
+			std::cout << "Newtons Method exceeded number of iterations." << std::endl;
+			return NULL;
+		}
 	}
-	return result; // Solution found.
+	return result;
 }

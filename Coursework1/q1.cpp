@@ -60,14 +60,23 @@ n = 2 Generates the second matrix of the excercise sheet.
 double** _generateMatrix(int n, int n_rows, int n_cols);
 
 /*Functions to test the code*/
-double l2Norm(double* a_vector, int size); // Computes the l2-norm of a vector.
-double* substractV(double *v1, double *v2, int size); // Substracts two vectors.
-double** createRandomMatrix(int n_rows, int n_cols); // Creates a random matrix having n_rows x n_cols.
-double* createRandomVector(int size); // Creates a random vector of the given size
-static void initRandomSeed(); // Initialize the random seed.
-int randomInteger(int low, int high); // Returns a random Integer number between low and high.
-double randomReal(double low, double high); // Returns a random Double precision number between low and high.
-void testWithRandomInputs(); // Tests the code for a random matrix and a random vector of random size.
+
+// Computes the l2-norm of a vector.
+double l2Norm(double* a_vector, int size); 
+// Substracts two vectors.
+double* substractV(double *v1, double *v2, int size); 
+// Creates a random matrix having n_rows x n_cols.
+double** createRandomMatrix(int n_rows, int n_cols); 
+// Creates a random vector of the given size
+double* createRandomVector(int size); 
+// Initialize the random seed.
+static void initRandomSeed(); 
+// Returns a random Integer number between low and high.
+int randomInteger(int low, int high); 
+// Returns a random Double precision number between low and high.
+double randomReal(double low, double high); 
+// Tests the code for a random matrix and a random vector of random size.
+void testWithRandomInputs(); 
 
 /*--------Main Program-------*/
 int main(){
@@ -176,8 +185,8 @@ double** _generateMatrix(int n, int n_rows, int n_cols){
 }
 
 double l2Norm(double* a_vector, int size){
-	int norm = 0.0;
-    for (int i=1; i<size; i++){
+	double norm = 0.0;
+    for (int i=0; i<size; i++){
         norm += pow(a_vector[i],2.0);
     }
     return sqrt(norm);

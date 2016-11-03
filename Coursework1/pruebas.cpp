@@ -28,8 +28,8 @@ void testRowPivoting();
 int main(){
 	//testBackSubstitution();
 	testRowPivoting();
-	std::cout << _isAlmostZero(-0.0) <<std::endl;
-	std::cout << (0.0 <= 1.0e-10) << std::endl;
+	std::cout << isAlmostZero(-0.01, 1e-6) <<std::endl;
+	std::cout << (0.01 <= 1e-6) << std::endl;
 	double** a_matrix = createRandomMatrix(6,6);
 	printMat(a_matrix, 6,6);
 }
