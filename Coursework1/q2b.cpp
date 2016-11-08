@@ -3,9 +3,39 @@
 #include "matrix_allocation.cpp"
 #include "newton.cpp"
 
+// A constant to hold the size of the system to be solved.
 static const int DIM = 3;
 
+/*
+Function: f
+Usage: double* f_x = f(a_vector);
+-----------------------------------
+Receives:
+	.x_vec -> vector with 3 elements which you want 
+	to evaluate the functions at.
+Returns:
+	.vector -> Result of the functions evaluated at x_vec.
+
+Evaluates the three functions in the excercise sheet, at
+the given 3x1 vector.
+*/
 double* f(double* x_vec);
+
+/*
+Function: Jf
+Usage: double** Jf_x = Jf(a_vector);
+-----------------------------------
+Receives:
+	.x_vec -> vector with 3 elements which you want 
+	to evaluate in the Jacobian matrix.
+Returns:
+	.matrix -> A 3x3 matrix, which holds the result of 
+	evaluating the given vector at the Jacobian matrix
+	of the functions given in the excercise sheet.
+
+Evaluates the given 3x1 vector in the Jacobian matrix
+of the functions given in the excercise sheet.
+*/
 double** Jf(double* x_vec);
 
 int main(){
@@ -17,9 +47,15 @@ int main(){
 
 	std::cout << "Is that a Root?" << std::endl;
 	std::cout << "f(root) = " << std::endl;
+	/* Evaluate the computed root at the functions 
+	to see if it's zero.*/
 	double* fx = f(a_root);
 	printV(fx, DIM);
-	std::cout << "l2 norm of f(root) = " << l2Norm(fx, DIM)<< std::endl;	
+	std::cout << "l2 norm of f(root) = " ;
+	std::cout << l2Norm(fx, DIM)<< std::endl;
+
+	delete[] a_root;
+	delete[] fx;	
 }
 
 double* f(double* x_vec){

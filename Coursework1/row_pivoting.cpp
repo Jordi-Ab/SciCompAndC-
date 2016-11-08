@@ -5,7 +5,7 @@
 Function: findPivot
 Usage: int pivot = findPivot(matrix, position, size);
 -------------------------------------------------------------
-* Assumes its working with square matrices.
+# Assumes its working with square matrices.
 
 Receives:
 	.A matrix
@@ -32,16 +32,21 @@ For column 0, pivot is located at row 4.
 Hence, pivot = 4.
 */
 int findPivot(double** matrix, int position, int size){
-	double pivot = std::abs(matrix[position][position]);
+	
+    double pivot = std::abs(matrix[position][position]);
 	int pivot_index = position;
-	for (int row=position+1; row<size; row++){
-		double possible_pivot = std::abs(matrix[row][position]);
-		if (possible_pivot > pivot){
+	
+    for (int row=position+1; row<size; row++){
+		
+        double possible_pivot = std::abs(matrix[row][position]);
+		
+        if (possible_pivot > pivot){
 				pivot = possible_pivot;
 				pivot_index = row;
 		}
 	}
-	return pivot_index;
+	
+    return pivot_index;
 }
 
 /*

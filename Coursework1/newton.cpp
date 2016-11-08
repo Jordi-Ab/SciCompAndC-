@@ -24,6 +24,17 @@ void printV(double *vector, int size){
 	}
 }
 
+void printMat(double **matrix, int n_rows, int n_cols){
+	for (int row=0; row < n_rows; row++){
+		std::cout << "|";
+		for (int col=0; col<n_cols; col++){
+			if (matrix[row][col]>=0 && matrix[row][col]<10) std::cout << " ";
+			std::cout << matrix[row][col] << " ";
+		}
+		std::cout << "|" << std::endl;
+	}
+}
+
 double* _substractV(double *v1, double *v2, int size){
 	double* result;
 	result = new double[size];

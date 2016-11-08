@@ -28,14 +28,20 @@ with A = 4x4 matrix, and b = 4x1 vector.
 Hence, augmented matrix is of size 4x5.
 */
 double* backSubstitution(double** aug_matrix,int n_rows,int n_cols){
-	double* result;
+	
+    double* result;
 	result = new double[n_rows];
-	for(int i=n_rows-1; i>=0; i--){
-		double rhs = aug_matrix[i][n_cols-1]; // rhs stands for right hand side.
-		for(int j=n_rows-1; j>i; j--){
+	
+    for(int i=n_rows-1; i>=0; i--){
+		
+        double rhs = aug_matrix[i][n_cols-1]; // rhs stands for right hand side.
+		
+        for(int j=n_rows-1; j>i; j--){
 			rhs -= result[j]*aug_matrix[i][j];
 		}
-		result[i] = rhs/aug_matrix[i][i];
+		
+        result[i] = rhs/aug_matrix[i][i];
 	}
-	return result;
+	
+    return result;
 }

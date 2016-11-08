@@ -1,22 +1,12 @@
 #import <iostream>
 #include <stdlib.h>
 #include <cmath>
+#include <string>
 #import "matrix_allocation.cpp"
 #import "back_substitution.cpp"
 #import "mat_vec_prod.cpp"
 #import "solve_ax_eq_b.cpp"
 #import "mat_vec_prod.cpp"
-
-
-/*
-Template for descriptions:
-Function: 
-Usage: 
------------------------------------
-(brief description)
-*/
-
-
 
 /*Function prototype declarations, and explanations*/
 
@@ -24,8 +14,8 @@ Usage:
 Function: printMat
 Usage: printMat(a_matrix, 3, 3)
 -----------------------------------
-Outputs a string representation of a n_rows x n_cols matrix
-object to the console window.
+Outputs a string representation of a n_rows x n_cols
+matrix object to the console window.
 */
 void printMat(double **matrix, int n_rows, int n_cols);
 
@@ -43,7 +33,7 @@ Function: _generateMatrix
 	#Intended for internal usage only.
 Usage: double** A = _generateMatrix(1);
 
-* This is a private function and shouldn't be used
+# This is a private function and shouldn't be used
 with numbers that are not 1 or 2.
 -----------------------------------
 Receives a number that corresponds to the matrix
@@ -71,12 +61,20 @@ double** createRandomMatrix(int n_rows, int n_cols);
 double* createRandomVector(int size); 
 // Initialize the random seed.
 static void initRandomSeed(); 
+// Returns a random Integer number between 2 and 9.
+int myRandomInteger();
 // Returns a random Integer number between low and high.
-int randomInteger(int low, int high); 
+int randomInteger(int low, int high);
+ /*
+ Comments about why I use two different random Integer
+ functions are below, on the functions themselves,
+ read them if interested.
+ */
+
 // Returns a random Double precision number between low and high.
 double randomReal(double low, double high); 
 // Tests the code for a random matrix and a random vector of random size.
-void testWithRandomInputs(); 
+void testWithRandomInputs();
 
 /*--------Main Program-------*/
 int main(){
@@ -92,13 +90,13 @@ int main(){
 	std::cout << "x for System 1: " << std::endl;
 	printV(x1, n_rows); // print the resulting x
 	double* Ax1 = matrixTimesVector(A1, x1, n_rows, n_cols, n_rows); // multiply A times x.
-	double* residual1 = substractV(b, Ax1, n_rows); // compute the residual vector b - Ax.
+    double* residual1 = substractV(b, Ax1, n_rows); // compute the residual vector b - Ax.
 	std::cout << "l2-norm of b-Ax = " << l2Norm(residual1, n_rows)<<std::endl; 
 	std::cout << " " << std::endl;
-	delete[] Ax1;
+    freeMatrixMemory(n_rows, A1);
+    delete[] x1;
+    delete[] Ax1;
 	delete[] residual1;
-	delete[] A1;
-	delete[] x1;
 
 	// Running code for the second matrix in the excercise sheet.
 	double** A2 = _generateMatrix(2, n_rows, n_cols); // generate the second matrix in the sheet.
@@ -106,41 +104,20 @@ int main(){
 	std::cout << "x for System 2: " << std::endl;
 	printV(x2, n_rows); // print the resulting x
 	double* Ax2 = matrixTimesVector(A2, x2, n_rows, n_cols, n_rows); // multiply A times x.
-	double* residual2 = substractV(b, Ax2, n_rows);
-	std::cout << "l2-norm of b-Ax = " << l2Norm(residual2, n_rows)<<std::endl; 
+    double* residual2 = substractV(b, Ax2, n_rows);
+	std::cout << "l2-norm of b-Ax = " << l2Norm(residual2, n_rows)<<std::endl;
 	std::cout << " " << std::endl;
+    freeMatrixMemory(n_rows, A2);
+    delete[] x2;
 	delete[] Ax2;
 	delete[] residual2;
-	delete[] A2;
-	delete[] x2;
+	
 
 	//Uncomment next function if you want to test the code with random inputs.
-	//testWithRandomInputs();
-	return 0;
-}
-
-void testWithRandomInputs(){
-	std::cout << " " << std::endl;
-	std::cout << "Testing with random inputs:" << std::endl;
-	int rand_size = randomInteger(1, 9);
-	std::cout << "Size of the system:" << rand_size << std::endl;
-
-	double** a_matrix = createRandomMatrix(rand_size, rand_size);
-	std::cout << "Random Matrix:" << std::endl;
-	printMat(a_matrix, rand_size, rand_size);
-	double* a_vector = createRandomVector(rand_size);
-	std::cout << "Random Vector:" << std::endl;
-	printV(a_vector, rand_size);
-	double* sol = solveAxEqB(a_matrix, a_vector, rand_size);
-	std::cout << "Solution:" << std::endl;
-	printV(sol, rand_size);
-
-	if (sol != NULL){
-		double* Ax = matrixTimesVector(a_matrix, sol, rand_size, rand_size, rand_size); // multiply A times x.
-		double* residual = substractV(a_vector, Ax, rand_size);
-		std::cout << "l2-norm of b-Ax = " << l2Norm(residual, rand_size)<<std::endl; 
-		std::cout << " " << std::endl;
-	}
+	
+    //testWithRandomInputs();
+	
+    return 0;
 }
 
 void printMat(double **matrix, int n_rows, int n_cols){
@@ -201,6 +178,41 @@ double* substractV(double *v1, double *v2, int size){
 	return result;
 }
 
+/*All next section are functions to test the code with
+random inputs*/
+
+void testWithRandomInputs(){
+	std::cout << " " << std::endl;
+	std::cout << "Testing with random inputs:" << std::endl;
+    int size = myRandomInteger(); // I use myRandomInteger just for the inital size.
+	std::cout << "Size of the system:" << size << std::endl;
+
+	double** a_matrix = createRandomMatrix(size, size);
+	std::cout << "Random Matrix:" << std::endl;
+	printMat(a_matrix, size, size);
+	double* a_vector = createRandomVector(size);
+	std::cout << "Random Vector:" << std::endl;
+	printV(a_vector, size);
+	double* sol = solveAxEqB(a_matrix, a_vector, size);
+	std::cout << "Solution:" << std::endl;
+	printV(sol, size);
+
+	if (sol != NULL){
+		double* Ax = matrixTimesVector(a_matrix, sol, size, size, size); // multiply A times x.
+		double* residual = substractV(a_vector, Ax, size);
+		std::cout << "l2-norm of b-Ax = " << l2Norm(residual, size)<<std::endl;
+		std::cout << " " << std::endl;
+        delete[] Ax;
+        delete[] residual;
+	}
+    
+    freeMatrixMemory(size, a_matrix);
+    delete[] a_vector;
+    delete[] sol;
+    
+    
+}
+
 double** createRandomMatrix(int n_rows, int n_cols){
 	double** rand_matrix = allocateMatrixMemory(n_rows,n_cols);
 	for (int i=0; i<n_rows; i++){
@@ -216,9 +228,9 @@ double* createRandomVector(int size){
 	double* rand_vec;
 	rand_vec = new double[size];
 	for (int i=0; i<size; i++){
-		//int entry = randomInteger(-9, 9);
-		double entry = randomReal(-9.9, 9.9);
-		rand_vec[i] = /*(double)*/entry; 
+		//int entry = randomInteger(-9, 9); // For random vectors of integers
+		double entry = randomReal(-9.9, 9.9); // For random vectors of double precision
+		rand_vec[i] = /*(double)*/entry; // Parse to double when using the integer entries.
 	}
 	return rand_vec;
 }
@@ -243,4 +255,42 @@ double randomReal(double low, double high) {
     double d = rand() / (double(RAND_MAX) + 1);
     double s = d * (high - low);
     return low + s;
+}
+
+int myRandomInteger(){
+    /*
+     I created this function because the conventional way of
+     creating random Integers, which is in the randomInteger
+     function, is biased towards the lowest value of the range.
+     When you run the program, the first generated number is
+     almost always the lowest value on the range. 
+     In this program the first time I called randomInteger 
+     was to decide the size of the system to be solved, so almost
+     always it returned a 2x2 system.
+     So I hacked a function that the first time you run it returns
+     a truly random Integer between 2 and 9.
+     
+     #Its not the most efficient way of creating a non biased 
+     random Integer between an interval, but does the job 
+     for this excercise.
+    */
+    initRandomSeed();
+    int r = rand();
+    std::string str = std::to_string(r);
+    char last_value = str[str.length()-1];
+    int l = last_value - 48;
+    
+    if (l <= 1) l+=2;
+    
+    return l;
+    /*
+     Basically, it chooses the last integer in the number generated by
+     rand(). The problem of the bias towards the lowest value of the 
+     interval is that rand() returns very large numbers, so the first
+     numbers of rand() almost never change, so when doing all the
+     manipulations to map the rand() to an integer on an interval, it
+     almost always returned the lowest value. So instead of that I worked
+     with the last integer of rand(), which do varies very much every time
+     you run it for the first time.
+    */
 }
