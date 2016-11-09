@@ -28,7 +28,3 @@
 *.out
 *.app
 
-#IDE Projects
-*.xcodeproj
-*.pro
-*.pro.user
