@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include "VecsAndMats.h"
 
 /*
  * Function: tridiagonal
@@ -23,9 +24,7 @@
 double** tridiagonal(double m, double u, double l, int size);
 double* jacobiSolve(double** A, double* b, double* initial_x, int size);
 double* gauss_SeidelSolve(double** A, double* b, double* initial_x, int size);
-void printMat(double **matrix, int n_rows, int n_cols);
-void printV(double *vec, int size);
-double** createMatrix(int n_rows, int n_cols);
+double* sorSolve(double** A, double* b, double* initial_x, double omega, int size);
 double* createB(int size);
 double* zerosV(int size);
 
@@ -43,8 +42,14 @@ int main(){
     //double* x_jacobi = jacobiSolve(K, b, init_x, n);
     //printV(x_jacobi, n);
 
-    double* x_gauss_seid = gauss_SeidelSolve(K, b, init_x, n);
-    printV(x_gauss_seid, n);
+    //double* x_gauss_seid = gauss_SeidelSolve(K, b, init_x, n);
+    //printV(x_gauss_seid, n);
+
+    /*Sor method converges in the same # of iterations as Gauss-Seidel.
+    Hence, there is a bug in the code.*/
+    double omega = 1.527893;
+    double* x_sor = sorSolve(K, b, init_x, omega, n);
+    printV(x_sor, n);
 
     return 0;
 }

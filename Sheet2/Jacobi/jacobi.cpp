@@ -1,7 +1,9 @@
 #include <iostream>
-#include "VecsAndMats.h"
 
-double* makeJacobiStep(double** A, double* b, double* last_x, int size){
+double* substractV(double *v1, double *v2, int size);
+double l2Norm(double* a_vector, int size);
+
+double* jacobiStep(double** A, double* b, double* last_x, int size){
     double* x_new = new double[size];
     for (int r=0; r<size; r++){
         x_new[r] = b[r];
@@ -23,7 +25,7 @@ double* jacobiSolve(double** A, double* b, double* initial_x, int size){
     double* last_x = initial_x;
     double* new_x = NULL;
     while (true){
-        new_x = makeJacobiStep(A, b, last_x, size);
+        new_x = jacobiStep(A, b, last_x, size);
         iterations += 1;
         double* difference = substractV(new_x, last_x, size);
         if (l2Norm(difference, size)<=1e-10){
