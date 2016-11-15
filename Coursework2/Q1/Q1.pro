@@ -1,23 +1,28 @@
-# include various source .cpp files and header .h files in the build process
-# (student's source code can be put into project root, or src/ subfolder)
-SOURCES += $$PWD/lib/*.cpp
+exists($$PWD/lib/*.cpp){
+    SOURCES += $$PWD/lib/*.cpp
+}
 exists($$PWD/src/*.cpp) {
     SOURCES += $$PWD/src/*.cpp
-}
-exists($$PWD/src/test/*.cpp) {
-    SOURCES += $$PWD/src/test/*.cpp
 }
 exists($$PWD/*.cpp) {
     SOURCES += $$PWD/*.cpp
 }
 
-HEADERS += $$PWD/lib*.h
+exists($$PWD/lib/*.h) {
+    HEADERS += $$PWD/lib/*.h
+}
+
 exists($$PWD/src/*.h) {
     HEADERS += $$PWD/src/*.h
-}
-exists($$PWD/src/test/*.h) {
-    HEADERS += $$PWD/src/test/*.h
 }
 exists($$PWD/*.h) {
     HEADERS += $$PWD/*.h
 }
+
+# directories examined by Qt Creator when student writes an #include statement
+INCLUDEPATH += $$PWD/lib/
+INCLUDEPATH += $$PWD/src/
+INCLUDEPATH += $$PWD/
+
+# Configuration to use c++11
+CONFIG += c++11
