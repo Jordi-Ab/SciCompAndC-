@@ -1,0 +1,476 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"main",
+				"_main_category"
+			],
+			[
+				"print",
+				"printMat"
+			],
+			[
+				"A",
+				"ARRAY_SIZE"
+			],
+			[
+				"Ca",
+				"INITIAL_CAPACITY"
+			],
+			[
+				"ode",
+				"ODE"
+			],
+			[
+				"labels",
+				"labels"
+			],
+			[
+				"parallel",
+				"parallelComponent"
+			],
+			[
+				"parall",
+				"parallelComponent"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Q1/Driver.cpp",
+			"settings":
+			{
+				"buffer_size": 748,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Q1/myRandom.cpp",
+			"settings":
+			{
+				"buffer_size": 3953,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Q1/matrix_allocation.cpp",
+			"settings":
+			{
+				"buffer_size": 820,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				"Run"
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 107.0,
+		"last_filter": "install",
+		"selected_items":
+		[
+			[
+				"install",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"color",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/user/Documents/Maestria/SciComp_Cpp/SciComp_Cpp_git/Coursework2/Q1"
+	],
+	"file_history":
+	[
+		"/Users/user/Documents/Maestria/SciComp_Cpp/SciComp_Cpp_git/myRandom.cpp",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/3 - LU/gaussianElimination.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/3 - LU/gaussianElimination2.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/vec.py",
+		"/Users/user/Documents/Personal Finance/expense.py",
+		"/Users/user/Documents/Personal Finance/helper_functions.py",
+		"/Users/user/Documents/Linio Python Scripts/MSICosts/helper_functions.py",
+		"/Users/user/Documents/Linio Python Scripts/MSICosts/msi_costs_computation.py",
+		"/Users/user/Documents/Personal Finance/spends_tracker.py",
+		"/Users/user/Documents/Linio Python Scripts/Update Daily/update_daily.py",
+		"/Users/user/Documents/Linio Python Scripts/Daily Performance/daily_performance.py",
+		"/Users/user/Documents/Maestria/Coursework1/course_work1_submission.tex",
+		"/Users/user/Desktop/random.cpp",
+		"/Users/user/Documents/Maestria/SciComp_Cpp.sublime-project",
+		"/Users/user/Desktop/random.h",
+		"/Users/user/Desktop/una_prueba.cpp",
+		"/Users/user/Documents/Scripts/C++/StanfordCPPLib/random.h",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/Sheet1/1_HelloWorld/1.1_HelloWorld",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/Coursework1/newton.cpp",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/Sheet1/4_RootsOfPoly/1.4_RootsOfPoly.cpp",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/Sheet1/6_SumOfSquares/1.6_SumOfSquares.cpp",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/Sheet1/9_PiMontecarlo/1.9_PiMontecarlo.cpp",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/Coursework1/random.cpp",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/Coursework1/random.h",
+		"/Users/user/Documents/Linio Python Scripts/MSICosts/msi_costs_update_tbls.py",
+		"/Users/user/Documents/Personal Finance/data_base.txt",
+		"/Users/user/Documents/Linio Python Scripts/Update Daily/main.py",
+		"/Users/user/Documents/Linio Python Scripts/PerfMgmt/DailyPerformance/daily_performance_bckup.py",
+		"/Users/user/Documents/Linio Python Scripts/PerfMgmt/Cohorts Model Targets Update/getCohortsTargets.py",
+		"/Users/user/Documents/Linio Python Scripts/Update Daily/msi_costs_update_tbls.py",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/Sheet1/10_VectorsAndMatrices.cpp",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/Sheet1/AssessedCoursework1/vector_operations.cpp",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/myVector.cpp",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/myVector.h",
+		"/Users/user/anaconda/lib/python3.5/site-packages/pip/_vendor/progress/__init__.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/11 - Nonlinear Equations/rootFinders.py",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/vector.cpp",
+		"/Users/user/Documents/Maestria/SciComp_Cpp/vector.h",
+		"/Users/user/Documents/Personal Finance/functions.py",
+		"/Users/user/Google Drive/Scripts Linio/Python/DailyTracking/daily.py",
+		"/Volumes/Untitled/Programming/C++/PriorityQueue/Other implementations/pqueue-vector.cpp",
+		"/Volumes/Untitled/Programming/C++/PriorityQueue/Other implementations/pqueue-vector.h",
+		"/Volumes/Untitled/Programming/C++/StanfordCPPLib/StanfordCPPLib/vector.h",
+		"/Users/user/Python/contactsModifier.py",
+		"/Users/user/Python/overwriteMyContacts/README.md",
+		"/Users/user/Documents/Linio Python Scripts/Excel_Writer/excelwriter.py",
+		"/Users/user/Downloads/program.py",
+		"/Users/user/Scripts.sublime-project",
+		"/Users/user/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/user/pruebas.cpp",
+		"/Volumes/Untitled/Programming/C++/StanfordCPPLib/StanfordCPPLib/simpio.cpp",
+		"/Volumes/Untitled/Programming/C++/StanfordCPPLib/StanfordCPPLib/random.cpp",
+		"/Volumes/Untitled/Programming/C++/Boggle/Boggle/src/Boggle.cpp",
+		"/Users/user/Documents/Maestria/Sci Comp in C++/SciComp_Cpp/README.md",
+		"/Users/user/github/HelloWorld/HelloWorld.cpp",
+		"/Volumes/Untitled/Programming/C++/Problem Set2/Minesweeper/src/Minesweeper.cpp",
+		"/Users/user/Documents/Maestria/Sci Comp in C++/Excercises Set 1/Ex4/ex4.cpp",
+		"/Volumes/Untitled/Programming/C++/StanfordCPPLib/StanfordCPPLib/simpio.h",
+		"/Users/user/Documents/Scripts/C++/LinkedLWUp.cpp",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/Lab Eigenfaces/Illinois.py",
+		"/Users/user/Documents/Scripts/C++/Problem Set9.cpp",
+		"/Users/user/Documents/Cursos en linea/Numerical Analysis/ODEs/Second Order System.m",
+		"/Users/user/Documents/Cursos en linea/MIT OCW/Comp Science and Engineering/assignments/normalmodescode.m",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/11 - Nonlinear Equations/nonlinear_equations.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Analysis/IVP for ODEs/ODESolver.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Analysis/IVP for ODEs/EulerClasses.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Analysis/ODEs/Euler Classes.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/11 - Nonlinear Equations/root_finding.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Analysis/ODEs/ODESolver.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Analysis/ODEs/ODESolve.py",
+		"/Users/user/Python/Numerical Methods/eigens.py",
+		"/Users/user/Python/Numerical Methods/factoring_support.py",
+		"/Users/user/Documents/Cursos en linea/MIT OCW/Comp Science and Engineering/assignments/orthogonality.py",
+		"/Users/user/Documents/Cursos en linea/MIT OCW/Comp Science and Engineering/assignments/householder.m",
+		"/Users/user/Python/Numerical Methods/orthogonality.py",
+		"/Users/user/Documents/Cursos en linea/MIT OCW/Comp Science and Engineering/assignments/modifiedgramschmidt.m",
+		"/Users/user/Documents/Cursos en linea/MIT OCW/Comp Science and Engineering/assignments/gramschmidt.m",
+		"/Users/user/Documents/Cursos en linea/MIT OCW/Comp Science and Engineering/assignments/369solution.m",
+		"/Users/user/Python/Numerical Methods/nonlinear_equations.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/10 - Function Spaces/Cubic Interpolation.ipynb",
+		"/Users/user/Python/Numerical Methods/Numerical Differentiation",
+		"/Users/user/Documents/Linio Python Scripts/abhi.py",
+		"/Users/user/Documents/Linio Python Scripts/Excel_Writer/Query_toExcel.py",
+		"/Users/user/Python/timeSeries.py",
+		"/Users/user/Python/Numerical Methods/Lab Eigenfaces/eigenfaces.py",
+		"/Users/user/Python/Numerical Methods/Lab Eigenfaces/svd.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/6 - QR Applications/Breast Cancer/data description",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/IPython Notebooks (Demos)/4 - LU Applications/m_echelon.py",
+		"/Users/user/Python/Libs/matutil.py",
+		"/Users/user/Python/Libs/mat.py",
+		"/Users/user/Python/Libs/vec.py",
+		"/Users/user/Desktop/untitled.py",
+		"/Users/user/Python/Libs/sitecustomize.py",
+		"/Users/user/Python/Libs/setup.py",
+		"/Users/user/Python/Libs_py3/setup.py",
+		"/Users/user/Python/Spyder Color Scheme Custom Config",
+		"/Users/user/Documents/Scripts.sublime-project",
+		"/Users/user/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Users/user/Downloads/cancer_data.py",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/Lab_CancerPrediction/validate.data",
+		"/Users/user/Documents/Cursos en linea/Numerical Methods/Lab_CancerPrediction/train.data",
+		"/Users/user/Downloads/mat (1).py",
+		"/Users/user/Python/Numerical Methods/Traffic Flow/Traffic_flow.py",
+		"/Users/user/Documents/Cursos en linea/MIT OCW/Learning Diff Eq/Videos Follow-up",
+		"/Users/user/Python/Numerical Methods/primeNums.py",
+		"/Users/user/Documents/Cursos en linea/MIT OCW/Intro to Programming and Computer Science/unit-2/lecture-14-sampling-and-monte-carlo-simulation/ps6_solution.py",
+		"/Users/user/Documents/Linio Python Scripts/Daily Performance/query.py",
+		"/Users/user/Documents/Cursos en linea/MIT OCW/Intro to Programming and Computer Science/unit-2/lecture-11-oop-and-inheritance/lec11.py",
+		"/Users/user/Documents/Cursos en linea/MIT OCW/Intro to Programming and Computer Science/unit-1/lecture-9-memory-and-search-methods/lec09.py",
+		"/Users/user/Documents/Cursos en linea/MIT OCW/Intro to Programming and Computer Science/unit-2/lecture-10-hashing-and-classes/lec10.py",
+		"/Users/user/Python/Numerical Methods/vec.py",
+		"/Users/user/Documents/Scripts/Python/MIT/ps6/ps6_pkgtest.py",
+		"/Users/user/Documents/computation courses",
+		"/Users/user/Documents/Theory of Computation/6-045j-spring-2011/6-045j-spring-2011/contents/lecture-notes/MIT6_045JS11_lec01.pdf.xml",
+		"/Users/user/Documents/Theory of Computation/6-045j-spring-2011/6-045j-spring-2011/common/scripts/bubble-popup-offline.js",
+		"/Users/user/Documents/Rackspace_BI_VPN_profile.pcf",
+		"/Users/user/Google Drive/Performance Management/Mine/Analysis/Budget Distribution Optimization/databases.yml",
+		"/Users/user/Google Drive/CVM_GA/PythonScripts/Cohort_Analysis/config.yml",
+		"/Users/user/Google Drive/PythonScripts/PerfMgmt/databases.yml",
+		"/Users/user/Google Drive/CVM_GA/PythonScripts/Perf Mgmt Monthly Marketing/query.py",
+		"/Users/user/Google Drive/CVM_GA/PythonScripts/Perf Mgmt Monthly Marketing/MonthlyMarketing.py",
+		"/Users/user/Google Drive/PythonScripts/query_data.py",
+		"/Users/user/Google Drive/PythonScripts/MySQL.py",
+		"/Users/user/Documents/CO-DailyTracking/queries.py",
+		"/Users/user/Google Drive/CVM_GA/PythonScripts/Perf Mgmt Monthly Marketing/helper_functions.py",
+		"/Users/user/Google Drive/PythonScripts/PerfMgmt/helper_functions.py",
+		"/Users/user/Google Drive/PythonScripts/helper_functions.py",
+		"/Users/user/Google Drive/PythonScripts/budget_distribution.py"
+	],
+	"find":
+	{
+		"height": 25.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"NMAX",
+			"TOL",
+			"1"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"max_iter",
+			"tol"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Q1/Driver.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 748,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								246,
+								246
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Q1/myRandom.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3953,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2360,
+								2360
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1090.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Q1/matrix_allocation.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 820,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 161.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "CW2.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": false,
+	"side_bar_visible": true,
+	"side_bar_width": 260.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
