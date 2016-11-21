@@ -1,6 +1,8 @@
 #include <cmath>
+#include <stdexcept>
 #include "matrix_allocation.hpp"
-#include "LinearAlgebralibrary.hpp"
+#include "LinearAlgebraLibrary.hpp"
+#include "InputOutputUtilities.hpp"
 
 /*----------Main Functions to perform PLU factorization.-----------*/
 void PLUDecomposition(double** A, double** L, double** U, int* P, int n){
@@ -28,20 +30,29 @@ void PLUDecomposition(double** A, double** L, double** U, int* P, int n){
 void toUpperTriangular(double** matrix, double* perm_vec,
 						double** L, 
 						int n_rows, int n_cols){
-
+	PrintMatrix(n_rows, n_cols, matrix, "Initial A: ");
 	for(int row_at=0; row_at<n_rows; row_at++){
-		
+		print("row_at = ", false);
+		print(row_at);
 		// Permutation step:
         int pivot_index = _findPivot(matrix, row_at, n_rows);
+        print("pivot index: ", false);
+        print(pivot_index);
         if (row_at != pivot_index){
 			int *pi = _P(row_at, pivot_index, n_rows);
+			print("swap_rows: ");
+			PrintVector(2, pi, "pi");
 			permuteMatrix(pi, matrix, n_rows);
+			PrintMatrix(n_rows, n_cols, matrix, "Permuted A: ");
 			permuteVector(pi, perm_vec, n_rows);
+			PrintVector(n_rows, perm_vec, "perm vec:");
 		}
 		
 		toLprime(L, row_at, pivot_index);
+		PrintMatrix(n_rows, n_cols, L, "L': ");
         
         eliminationStep(matrix, L, row_at, n_rows, n_cols);
+        PrintMatrix(n_rows, n_cols, matrix, "Eliminated A: ");
         
 	}
 }
@@ -195,7 +206,7 @@ void permuteMatrix(int* pi, double** a_matrix, int size){
         double* temp = a_matrix[row1_index];
 		a_matrix[row1_index] = a_matrix[row2_index];
 		a_matrix[row2_index] = temp;
-		delete[] temp;
+		//delete[] temp;
     }
 }
 

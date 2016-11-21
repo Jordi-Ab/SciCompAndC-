@@ -9,6 +9,8 @@ double** bookExample(int n_rows, int n_cols);
 
 int main(){
 	int size = 4;
+    print("size = ", false);
+    print(size);
     double** a_matrix = bookExample(size,size);
     PrintMatrix(size,size, a_matrix, "A");
 
@@ -20,7 +22,6 @@ int main(){
 	PrintMatrix(size,size, U, "U");
 	PrintMatrix(size,size, L, "L");
 	PrintVector(size, P, "P");
-
 
     return 0;
 }
