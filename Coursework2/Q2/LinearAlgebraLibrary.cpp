@@ -30,29 +30,30 @@ void PLUDecomposition(double** A, double** L, double** U, int* P, int n){
 void toUpperTriangular(double** matrix, double* perm_vec,
 						double** L, 
 						int n_rows, int n_cols){
-	PrintMatrix(n_rows, n_cols, matrix, "Initial A: ");
+	//PrintMatrix(n_rows, n_cols, matrix, "Initial A: ");
 	for(int row_at=0; row_at<n_rows; row_at++){
-		print("row_at = ", false);
-		print(row_at);
+		//print("row_at = ", false);
+		//print(row_at);
+
 		// Permutation step:
         int pivot_index = _findPivot(matrix, row_at, n_rows);
-        print("pivot index: ", false);
-        print(pivot_index);
+        //print("pivot index: ", false);
+        //print(pivot_index);
         if (row_at != pivot_index){
 			int *pi = _P(row_at, pivot_index, n_rows);
-			print("swap_rows: ");
-			PrintVector(2, pi, "pi");
+			//print("swap_rows: ");
+			//PrintVector(2, pi, "pi");
 			permuteMatrix(pi, matrix, n_rows);
-			PrintMatrix(n_rows, n_cols, matrix, "Permuted A: ");
+			//PrintMatrix(n_rows, n_cols, matrix, "Permuted A: ");
 			permuteVector(pi, perm_vec, n_rows);
-			PrintVector(n_rows, perm_vec, "perm vec:");
+			//PrintVector(n_rows, perm_vec, "perm vec:");
 		}
 		
 		toLprime(L, row_at, pivot_index);
-		PrintMatrix(n_rows, n_cols, L, "L': ");
+		//PrintMatrix(n_rows, n_cols, L, "L': ");
         
         eliminationStep(matrix, L, row_at, n_rows, n_cols);
-        PrintMatrix(n_rows, n_cols, matrix, "Eliminated A: ");
+        //PrintMatrix(n_rows, n_cols, matrix, "Eliminated A: ");
         
 	}
 }
@@ -210,15 +211,13 @@ void permuteMatrix(int* pi, double** a_matrix, int size){
     }
 }
 
-double** fullPermutationMatrix(int* pi, int size){
+double** fullPermutationMatrix(double* perm_vec, int size){
     double** perm_mat = allocateMatrixMemory(size,size);
-    int entry1 = pi[0];
-    int entry2 = pi[1];
     for (int row=0; row<size; row++){
         double* v;
-        if(row == entry1) v = eyeV(entry2, size);
-        else if(row == entry2) v = eyeV(entry1, size);
-        else v = eyeV(row, size);
+        double index = perm_vec[row];
+        if(row == index) v = eyeV(row, size);
+        else v = eyeV(index, size);
         perm_mat[row] = v;
     }
     return perm_mat;

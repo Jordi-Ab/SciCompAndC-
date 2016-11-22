@@ -32,8 +32,9 @@ double* permutationVector(int* pi, int size);
 void permuteVector(int* pi, double* v, int size);
 
 void permuteMatrix(int* pi, double** a_matrix, int size);
+void permuteMatrix(double* perm_vec, double** a_matrix, int size);
 
-double** fullPermutationMatrix(int* pi, int size);
+double** fullPermutationMatrix(double* perm_vec, int size);
 
 bool isAlmostZero(double number, double error_tol=1e-10);
 

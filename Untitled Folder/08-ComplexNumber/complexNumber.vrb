@@ -1,0 +1,29 @@
+\frametitle{Question 3}
+  \vspace{-2em}
+  \begin{alertblock}{Question 3}
+  Let $u,v,z \in \mathbb{C}$. Download the code in
+  \inline|Codes/ComplexNumber/ComplexNumber3| and add the following members to
+  \inline|ComplexNumber|
+  % \[
+  % z = -u, \qquad z = u + v, \qquad z = u - v
+  % \]
+
+  \begin{enumerate}
+    \item A method that overloads the unary subtraction operator \inline|-|, in
+      order to perform the mathematical operation $z=-u$ (use this prototype)
+      \lstinputlisting[numbers=none, linerange=27-27]{Codes/ComplexNumber4/ComplexNumber.hpp}
+
+    \item A method that overloads the binary addition operator \inline|+|, in
+      order to perform the mathematical operation $z=u+v$ (use this prototype)
+      \lstinputlisting[numbers=none, linerange=30-30]{ Codes/ComplexNumber4/ComplexNumber.hpp}
+
+    \item A method that overloads the binary addition operator \inline|-|, in
+      order to perform the mathematical operation $z=u-v$ (use this prototype)
+      \lstinputlisting[numbers=none, linerange=33-33]{ Codes/ComplexNumber4/ComplexNumber.hpp}
+  \end{enumerate}
+
+  Write a file \inline|Driver.cpp| to test your class. You now have a fully
+  functional \inline|ComplexNumber| class whose modularity we will exploit in future
+  units!
+
+  \end{alertblock}
