@@ -1,2 +1,0 @@
-Driver.o: Driver.cpp ComplexNumber.hpp
-ComplexNumber.o: ComplexNumber.cpp ComplexNumber.hpp
