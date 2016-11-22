@@ -1,18 +1,19 @@
 #include <cmath>
 #include "matrix_allocation.hpp"
 
-double* GCLmesh(int n){
-	double* mesh = new double[n];
+void GCLmesh(int n, double* mesh){
+
 	for (int j=0; j<n; j++){
 		double xj = cos(j*M_PI/n);
 		mesh[j] = xj;
 	}
-	return mesh;
 }
 
-double** chebyDiffMatrix(int n, double* x){
-	double** d_mat = allocateMatrixMemory(n,n);
+void ChebyshevDifferentiationMatrix(int n, double* x, double **D){
+	GCLmesh(n, x);
 	for (int i=0; i<n; i++){
+		//double xi = cos(i*M_PI/n);
+		//x[i] = xi;
 		for (int j=0; j<n; j++){
 			double entry;
 			if(i==0 && j==0){
@@ -26,8 +27,7 @@ double** chebyDiffMatrix(int n, double* x){
 				int cj = (j==0 || j==n) ? (2):(1);
 				entry = (ci/cj) * ( pow(-1, i+j) / (x[i] - x[j]) );
 			}
-			d_mat[i][j] = entry;
+			D[i][j] = entry;
 		}
 	} 
-	return d_mat;
 }
