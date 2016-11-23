@@ -10,6 +10,10 @@ double** bookExample(int n_rows, int n_cols);
 double** andreasA(int n_rows, int n_cols);
 
 int main(){
+    /*
+    Things to modify:
+        . Use perm vec instead of multiplying by P.
+    */
 	int size = 4;
     print("size = ", false);
     print(size);

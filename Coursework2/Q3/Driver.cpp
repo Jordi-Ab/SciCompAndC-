@@ -4,7 +4,7 @@
 #include "matrix_allocation.cpp"
 #include "VecsAndMats.cpp"
 
-const int MAX_N = 21;
+const int MAX_N = 20;
 
 double* f(double* xs, int n);
 double f(double x);
@@ -18,9 +18,8 @@ double infinityNorm(double* a_vector, int size);
 int main(){
 	int* ns = _ns();
 	double* errors = new double[MAX_N];
-	for (int i=0; i<20; i++){
+	for (int i=0; i<MAX_N; i++){
 		int n = ns[i]+1;
-
 		//int n=10;
 
 		double* mesh = new double[n];
@@ -45,10 +44,10 @@ int main(){
 
 		errors[i] = error;
 
-		std::cout << "For n = " << n-1 << ", ";
+		std::cout << "For n = " << n << ", ";
 		std::cout << "error = " << error << std::endl;
 
-		if(n-1 == 40){
+		if(n-1 == 2*MAX_N){
 		// Save vectors:
 			std::cout << "Saving vectors to files" << std::endl;
 			SaveVectorToFile(n, mesh, "grid.dat");
@@ -61,8 +60,8 @@ int main(){
 		delete[] us;
 		delete[] approx_sol;
 }
-	PrintVector(20, errors, "errors");
-	SaveVectorToFile(20, errors, "error.dat");
+	PrintVector(MAX_N, errors, "errors");
+	SaveVectorToFile(MAX_N, errors, "error.dat");
 	delete[] ns;
 }
 

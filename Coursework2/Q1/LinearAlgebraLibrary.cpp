@@ -17,10 +17,10 @@
  Has the effect of swaping the rows of "v" according to
  the given permutation vector "pi".
 */
-void permuteVector(int* pi, double* v, int size){
+void permuteVector(int n, int* pi, double* v){
     int entry1 = pi[0];
     int entry2 = pi[1];
-    if(entry1>size || entry2>size){
+    if(entry1>n || entry2>n){
         std::cout << "Index out of bounds ";
         std::cout << "for permuteVector."<<std::endl;
     }else{
@@ -28,6 +28,19 @@ void permuteVector(int* pi, double* v, int size){
         v[entry1] = v[entry2];
         v[entry2] = temp;
     }
+}
+
+void swapElements(int ix1, int ix2, double* vector){
+    double temp = vector[ix1];
+    vector[ix1] = vector[ix2];
+    vector[ix2] = temp;
+}
+
+void PermuteVector(int n, int* pi, double* v){
+    for (int i=0; i<n; i++){
+        int index = pi[i];
+        if(index > i) swapElements(index, i, v);
+    } 
 }
 
 int* P(int ix1, int ix2, int size){
@@ -45,8 +58,8 @@ int* P(int ix1, int ix2, int size){
     }
 }
 
-double* permutationVector(int* pi, int size){
-    double* v = new double[size];
+int* permutationVector(int* pi, int size){
+    int* v = new int[size];
     int entry1 = pi[0];
     int entry2 = pi[1];
     if(entry1>size || entry2>size){

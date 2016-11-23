@@ -5,7 +5,36 @@
 #include "InputOutputUtilities.hpp"
 
 /*----------Main Functions to perform PLU factorization.-----------*/
-void PLUDecomposition(double** A, double** L, double** U, int* P, int n){
+void PLUDecomposition (int n , double ** A , double ** L ,
+double ** U , int * pi ){
+	//PrintMatrix(n_rows, n_cols, matrix, "Initial A: ");
+	for(int row_at=0; row_at<n; row_at++){
+		//print("row_at = ", false);
+		//print(row_at);
+
+		// Permutation step:
+        int pivot_index = _findPivot(A, row_at, n);
+        //print("pivot index: ", false);
+        //print(pivot_index);
+        if (row_at != pivot_index){
+			int *p = _P(row_at, pivot_index, n);
+			//print("swap_rows: ");
+			//PrintVector(2, pi, "pi");
+			permuteMatrix(p, A, n);
+			//PrintMatrix(n_rows, n_cols, matrix, "Permuted A: ");
+			permuteVector(p, perm_vec, n_rows);
+			//PrintVector(n_rows, perm_vec, "perm vec:");
+		}
+		
+		toLprime(L, row_at, pivot_index);
+		//PrintMatrix(n_rows, n_cols, L, "L': ");
+        
+        eliminationStep(matrix, L, row_at, n_rows, n_cols);
+        //PrintMatrix(n_rows, n_cols, matrix, "Eliminated A: ");
+        
+	}
+
+}
 		/*
 		Receives a square matrix,
 		Overwrites .... 
@@ -25,7 +54,6 @@ void PLUDecomposition(double** A, double** L, double** U, int* P, int n){
 		manipulate L so that the factorization ends up as
 		PA = LU, with L being lower triangular.
 		toLprime(L,n) function does this. */
-}
 
 void toUpperTriangular(double** matrix, double* perm_vec,
 						double** L, 
