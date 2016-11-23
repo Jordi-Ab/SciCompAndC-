@@ -25,15 +25,14 @@ int main(){
 	PrintMatrix(size,size, L, "L");
 	PrintVector(size, pi, "P");
 
-    double** fullP = fullPermutationMatrix(pi, size);
-
-    double** PA = matrixTimesMatrix(fullP, A, size);
-    PrintMatrix(size,size, PA, "PA");
+	PermuteMatrix(size, pi, A);
+    //double** PA = matrixTimesMatrix(fullP, A, size);
+    PrintMatrix(size,size, A, "PA");
 
     double** LU = matrixTimesMatrix(L, U, size);
     PrintMatrix(size,size, LU, "LU");
 
-    double** residual = substractMat(PA, LU, size);
+    double** residual = substractMat(A, LU, size);
     PrintMatrix(size,size, residual, "(PA - LU)");
 
     return 0;
