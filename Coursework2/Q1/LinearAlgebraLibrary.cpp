@@ -2,6 +2,38 @@
 #include "matrix_allocation.cpp"
 
 /*
+Function: copyVector
+Usage: copyVector(vector, 4);
+---------------------------------------
+Returns a new vector which is the copy of the
+given vector.
+*/
+double* copyVector(double* a_vector, int n){
+	double* copy = new double[n];
+	for (int i=0; i<n; i++){
+		copy[i] = a_vector[i];
+	}
+	return copy;
+}
+
+/*
+Function: swapElements
+Usage: swapElements(0, 2, a_vector);
+---------------------------------------
+Swaps the element located at index "ix1"
+with the element located at index "ix2"
+inside a given vector.
+
+# Mutates the given vector.
+*/
+void swapElements(int ix1, int ix2, double* vector){
+    double temp = vector[ix1];
+    vector[ix1] = vector[ix2];
+    vector[ix2] = temp;
+}
+
+
+/*
  Function: permuteVector
  Usage: permuteVector(3, perm_vec, a_vec)
  ---------------------------------------
@@ -17,66 +49,55 @@
  Has the effect of swaping the rows of "v" according to
  the given permutation vector "pi".
 */
-void permuteVector(int n, int* pi, double* v){
-    int entry1 = pi[0];
-    int entry2 = pi[1];
-    if(entry1>n || entry2>n){
-        std::cout << "Index out of bounds ";
-        std::cout << "for permuteVector."<<std::endl;
-    }else{
-        double temp = v[entry1];
-        v[entry1] = v[entry2];
-        v[entry2] = temp;
-    }
-}
-
-void swapElements(int ix1, int ix2, double* vector){
-    double temp = vector[ix1];
-    vector[ix1] = vector[ix2];
-    vector[ix2] = temp;
-}
-
 void PermuteVector(int n, int* pi, double* v){
+	double* temp = copyVector(v, n);
     for (int i=0; i<n; i++){
         int index = pi[i];
-        if(index > i) swapElements(index, i, v);
+        if(index != i) v[i] = temp[index];
     } 
+    delete[] temp;
 }
 
-int* P(int ix1, int ix2, int size){
-    // Contains information about the rows to be swapped
-    // in a vector.
-    if(ix1>size || ix2>size){
-        std::cout << "Index out of bounds ";
-        std::cout << "for pi."<<std::endl;
-        return NULL;
-    }else{
-        int* result = new int[2];
-        result[0] = ix1;
-        result[1] = ix2;
-        return result;
-    }
-}
+/*
+ Function: permutationVector
+ Usage: permutationVector(3, 0, 4);
+ ---------------------------------------
+ Given row1, row2, and the size of the vector.
+ Returns a permutation vector that has information
+ about the rows to be permuted on a matrix,
+ (or the entries to be permuted in a vector).
+ In other words, contains the indices where the
+ entries of a vector should be located.
 
-int* permutationVector(int* pi, int size){
+ i.e. 
+ permutationVector(3, 0, 4) = [3,1,2,0,4]
+ That means a swap of element in 0 with element in 3
+
+*/
+int* permutationVector(int row1, int row2, int size){
     int* v = new int[size];
-    int entry1 = pi[0];
-    int entry2 = pi[1];
-    if(entry1>size || entry2>size){
+    if(row1>size || row2>size){
         std::cout << "Index out of bounds ";
         std::cout << "for permutationVector."<<std::endl;
         return NULL;
     }else{
         for(int i=0; i<size; i++){
-            if(i == entry1) v[i] = entry2;
-            else if(i == entry2) v[i] = entry1;
+            if(i == row1) v[i] = row2;
+            else if(i == row2) v[i] = row1;
             else v[i] = i;
         }
     }
     return v;
 }
 
-double* identityV(int entry, int size){
+/*
+Function: eyeV
+Usage: eyeV(2, 5);
+---------------------------------------
+Returns a vector of zeros of given size, 
+with a 1 located at the given "entry".
+*/
+double* eyeV(int entry, int size){
     double* vector = new double[size];
     if (entry>size){
         std::cout << "Index out of bounds ";
@@ -92,16 +113,20 @@ double* identityV(int entry, int size){
     return vector;
 }
 
+/*
+Function: fullPermutationMatrix
+Usage: fullPermutationMatrix(perm_vec, 10);
+---------------------------------------
+Given a permutation vector, returns its
+corresponding permutation Matrix.
+(Identity Matrix with rows swapped.)
+*/
 double** fullPermutationMatrix(int* pi, int size){
     double** perm_mat = allocateMatrixMemory(size,size);
-    int entry1 = pi[0];
-    int entry2 = pi[1];
-    for (int row=0; row<size; row++){
-        double* v;
-        if(row == entry1) v = identityV(entry2, size);
-        else if(row == entry2) v = identityV(entry1, size);
-        else v = identityV(row, size);
-        perm_mat[row] = v;
+    for (int r=0; r<size; r++){
+    	int index_of_row = pi[r];
+        double* row = eyeV(index_of_row, size);
+        perm_mat[r] = row;
     }
     return perm_mat;
 }

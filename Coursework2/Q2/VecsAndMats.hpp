@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cmath>
-#include "VecsAndMats.cpp"
 
 /*
 Function: allocateMatrixMemory
@@ -97,3 +96,8 @@ the row of the given matrix located at the given index.
 double* getRow(double** matrix, int index, int size);
 
 double** matrixTimesMatrix(double** m1, double** m2, int size);
+
+bool isVectorAlmostZero(double* vector, int size,
+                        double error_tol);
+
+bool isAlmostZero(double number, double error_tol);

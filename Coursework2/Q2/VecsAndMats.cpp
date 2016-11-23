@@ -1,13 +1,13 @@
 #include <iostream>
 #include <cmath>
 
-/*bool isAlmostZero(double number, double error_tol=1e-8){
+bool isAlmostZero(double number, double error_tol=1e-8){
 	if (number < 0){ // I make cases for negative number because abs(number) rounds the number.
 		return (number >= -error_tol);
 	}else{
 		return (number <= error_tol);
 	}
-}*/
+}
 
 double** createMatrix(int n_rows, int n_cols){
 	double** matrix;
@@ -184,7 +184,8 @@ double** matrixTimesMatrix(double** m1, double** m2, int size){
 }
 
 
-/*bool isVectorAlmostZero(double* vector, int size, double error_tol=1e-8){
+bool isVectorAlmostZero(double* vector, int size, 
+						double error_tol=1e-8){
 	
     bool value = true;
 	
@@ -194,8 +195,8 @@ double** matrixTimesMatrix(double** m1, double** m2, int size){
 		
         /* If any of its entries is not a computer zero,
          return false i.e. not a zeros vector.*/
-		/*if(!isAlmostZero(entry, error_tol)) return false; 
+		if(!isAlmostZero(entry, error_tol)) return false; 
 	}
     
 	return value; // After iterating through all entries, all of them are computer zeros.
-}*/
+}

@@ -6,7 +6,7 @@
 
 // Prints on screen an array v of doubles of lengthn .
 // The vector name is also displayed
-void printVector(int n, double* v, std::string vectorName = ""){
+void PrintVector(int n, double* v, std::string vectorName = ""){
   std::cout << "Vector " << vectorName << ": "<< std::endl;
   if(v == NULL) std::cout << "NULL vector" << std::endl;
   else{
@@ -19,7 +19,7 @@ void printVector(int n, double* v, std::string vectorName = ""){
 
 // Prints on screen an array v of integers, of length n.
 // The vector name is also displayed
-void printVector(int n, int* v, std::string vectorName = ""){
+void PrintVector(int n, int* v, std::string vectorName = ""){
     std::cout << "Vector " << vectorName << ": "<< std::endl;
     if(v == NULL) std::cout << "NULL vector" << std::endl;
     else{

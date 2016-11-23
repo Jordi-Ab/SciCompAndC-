@@ -1,7 +1,8 @@
 
 /*-Main Functions to perform PLU factorization.-*/
-void PLUDecomposition(double** A, double** L, 
-						double** U, int* P, int n);
+void PLUDecomposition (int n , double ** A ,
+                       double ** L , double ** U ,
+                       int * pi);
 
 void toUpperTriangular(double** matrix, int* perm_vec,
 						double** L, 
@@ -20,34 +21,39 @@ void toLprime(double** L, int row_at, int pivot_index);
 void swapMatrixEntries(double** a_matrix, int row1, 
 	int col1, int row2, int col2);
 
+void swapElements(int ix1, int ix2, double* vector);
+
+void swapElements(int ix1, int ix2, int* vector);
+
+void swapRows(int ix1, int ix2, double** a_matrix);
+
+void matrixToIdentity(double** M, int n_rows, int n_cols);
+
 double** eyeMat(int n_rows, int n_cols);
 
 double* eyeV(int entry, int size);
 
-double** copyMat(double** matrix, 
+//Copies the contents of M1 into M2.
+void copyMat(double** M1, double** M2,
 					int n_rows, int n_cols);
 
-double* permutationVector(int* pi, int size);
 
-void permuteVector(int* pi, double* v, int size);
+double* copyVector(double* a_vector, int n);
 
-void permuteMatrix(int* pi, double** a_matrix, int size);
-void permuteMatrix(double* perm_vec, double** a_matrix, int size);
+int* permutationVector(int row1, int row2, int size);
 
-double** fullPermutationMatrix(double* perm_vec, int size);
+void PermuteVector(int n, int* pi, double* v);
 
-bool isAlmostZero(double number, double error_tol=1e-10);
+void PermuteMatrix(int n, int* pi, double** M);
 
-bool isVectorAlmostZero(double* vector, int size, 
-						double error_tol=1e-10);
+double** fullPermutationMatrix(int* pi, int size);
 
 /*-Private Methods not intended for use outside this script.-*/
-int* _P(int ix1, int ix2, int size);
 
 double* _eliminate(double *row1, double *row2, 
 					double factor, int vecs_size);
 
-double* _initP(int size);
+void _initP(int* pi, int size);
 
 int _findPivot(double** matrix, int position, int size);
 

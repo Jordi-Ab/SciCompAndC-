@@ -10,26 +10,22 @@ double** bookExample(int n_rows, int n_cols);
 double** andreasA(int n_rows, int n_cols);
 
 int main(){
-    /*
-    Things to modify:
-        . Use perm vec instead of multiplying by P.
-    */
 	int size = 4;
     print("size = ", false);
     print(size);
     double** A = andreasA(size,size);
     PrintMatrix(size,size, A, "A");
 
-	double* P = _initP(size);
-	double** L = eyeMat(size, size);
-	double** U = copyMat(A, size, size);
+	int* pi = new int[size];
+	double** L = allocateMatrixMemory(size, size);
+	double** U = allocateMatrixMemory(size, size);
 
-	toUpperTriangular(U, P, L, size, size);
+	PLUDecomposition(size, A, L, U, pi);
 	PrintMatrix(size,size, U, "U");
 	PrintMatrix(size,size, L, "L");
-	PrintVector(size, P, "P");
+	PrintVector(size, pi, "P");
 
-    double** fullP = fullPermutationMatrix(P, size);
+    double** fullP = fullPermutationMatrix(pi, size);
 
     double** PA = matrixTimesMatrix(fullP, A, size);
     PrintMatrix(size,size, PA, "PA");
@@ -83,7 +79,7 @@ double** andreasA(int n_rows, int n_cols){
 
     double** A = allocateMatrixMemory(n_rows, n_cols);
     
-    A[0][0] =  0;A[0][1] =  2;A[0][2] =  19;A[0][3] = -7;
+    A[0][0] =  0;A[0][1] =  4;A[0][2] =  19;A[0][3] = -7;
     A[1][0] = -1;A[1][1] = -2;A[1][2] = -10;A[1][3] = -0;
     A[2][0] =  1;A[2][1] = 17;A[2][2] =   1;A[2][3] = -4;
     A[3][0] = -5;A[3][1] = -8;A[3][2] =  -6;A[3][3] = -2;

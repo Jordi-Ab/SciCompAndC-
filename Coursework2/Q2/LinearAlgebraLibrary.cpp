@@ -1,36 +1,41 @@
 #include <cmath>
+#include <iostream>
 #include <stdexcept>
 #include "matrix_allocation.hpp"
 #include "LinearAlgebraLibrary.hpp"
 #include "InputOutputUtilities.hpp"
+#include "VecsAndMats.cpp"
 
 /*----------Main Functions to perform PLU factorization.-----------*/
-void PLUDecomposition (int n , double ** A , double ** L ,
-double ** U , int * pi ){
-	//PrintMatrix(n_rows, n_cols, matrix, "Initial A: ");
+void PLUDecomposition (int n , double ** A , 
+						double ** L , double ** U , 
+						int * pi ){
+	_initP(pi, n);
+	copyMat(A, U, n, n);
+	matrixToIdentity(L, n, n);
+	PrintMatrix(n, n, U, "Initial A: ");
 	for(int row_at=0; row_at<n; row_at++){
-		//print("row_at = ", false);
-		//print(row_at);
+		print("row_at = ", false);
+		print(row_at);
 
 		// Permutation step:
-        int pivot_index = _findPivot(A, row_at, n);
-        //print("pivot index: ", false);
-        //print(pivot_index);
+        int pivot_index = _findPivot(U, row_at, n);
+        print("pivot index: ", false);
+        print(pivot_index);
         if (row_at != pivot_index){
-			int *p = _P(row_at, pivot_index, n);
-			//print("swap_rows: ");
+			print("swap_rows: ");
 			//PrintVector(2, pi, "pi");
-			permuteMatrix(p, A, n);
-			//PrintMatrix(n_rows, n_cols, matrix, "Permuted A: ");
-			permuteVector(p, perm_vec, n_rows);
-			//PrintVector(n_rows, perm_vec, "perm vec:");
+			swapRows(row_at, pivot_index, U);
+			PrintMatrix(n, n, U, "Permuted A: ");
+			swapElements(row_at, pivot_index, pi);
+			PrintVector(n, pi, "perm vec:");
 		}
 		
 		toLprime(L, row_at, pivot_index);
-		//PrintMatrix(n_rows, n_cols, L, "L': ");
+		PrintMatrix(n, n, L, "L': ");
         
-        eliminationStep(matrix, L, row_at, n_rows, n_cols);
-        //PrintMatrix(n_rows, n_cols, matrix, "Eliminated A: ");
+        eliminationStep(U, L, row_at, n, n);
+        PrintMatrix(n, n, U, "Eliminated A: ");
         
 	}
 
@@ -55,7 +60,7 @@ double ** U , int * pi ){
 		PA = LU, with L being lower triangular.
 		toLprime(L,n) function does this. */
 
-void toUpperTriangular(double** matrix, double* perm_vec,
+/*void toUpperTriangular(double** matrix, double* perm_vec,
 						double** L, 
 						int n_rows, int n_cols){
 	//PrintMatrix(n_rows, n_cols, matrix, "Initial A: ");
@@ -84,7 +89,7 @@ void toUpperTriangular(double** matrix, double* perm_vec,
         //PrintMatrix(n_rows, n_cols, matrix, "Eliminated A: ");
         
 	}
-}
+}*/
 
 void permutationStep(double** matrix, int current_row, 
 					int pivot_index, int n_rows){
@@ -149,11 +154,29 @@ void swapMatrixEntries(double** a_matrix, int row1, int col1, int row2, int col2
 	a_matrix[row2][col2] = temp;
 }
 
+void swapElements(int ix1, int ix2, double* vector){
+    double temp = vector[ix1];
+    vector[ix1] = vector[ix2];
+    vector[ix2] = temp;
+}
+
+void swapElements(int ix1, int ix2, int* vector){
+    int temp = vector[ix1];
+    vector[ix1] = vector[ix2];
+    vector[ix2] = temp;
+}
+
+void swapRows(int ix1, int ix2, double** a_matrix){
+    double* temp = a_matrix[ix1];
+    a_matrix[ix1] = a_matrix[ix2];
+    a_matrix[ix2] = temp;
+}
+
+/*
+Returns a "n_rows"x"n_cols"
+identity matrix.
+*/
 double** eyeMat(int n_rows, int n_cols){
-	/*
-	Returns a "n_rows"x"n_cols"
-	identity matrix.
-	*/
 	double** identity = allocateMatrixMemory(n_rows, n_cols);
 	for(int r=0; r<n_rows; r++){
 		for(int c=0; c<n_rows; c++){
@@ -168,7 +191,7 @@ double* eyeV(int entry, int size){
     double* vector = new double[size];
     if (entry>size){
         std::cout << "Index out of bounds ";
-        std::cout << "for identityV."<<std::endl;
+        std::cout << "for eyeV."<<std::endl;
         delete[] vector;
         return NULL;
     }else{
@@ -180,121 +203,80 @@ double* eyeV(int entry, int size){
     return vector;
 }
 
-double** copyMat(double** matrix, int n_rows, int n_cols){
-	/*
-	Returns a copy of the given "n_rows"x"n_cols"
-	"matrix"
-	*/
-	double** copy = allocateMatrixMemory(n_rows, n_cols);
+void matrixToIdentity(double** M, int n_rows, int n_cols){
 	for(int r=0; r<n_rows; r++){
 		for(int c=0; c<n_rows; c++){
-			copy[r][c] = matrix[r][c];
+			if (r == c) M[r][c] = 1;
+			else M[r][c] = 0;
 		}
+	}
+}
+
+void copyMat(double** M1, double** M2, 
+			int n_rows, int n_cols){
+	for(int r=0; r<n_rows; r++){
+		for(int c=0; c<n_rows; c++){
+			M2[r][c] = M1[r][c];
+		}
+	}
+}
+
+double* copyVector(double* a_vector, int n){
+	double* copy = new double[n];
+	for (int i=0; i<n; i++){
+		copy[i] = a_vector[i];
 	}
 	return copy;
 }
 
-double* permutationVector(int* pi, int size){
-    double* v = new double[size];
-    int entry1 = pi[0];
-    int entry2 = pi[1];
-    if(entry1>size || entry2>size){
+int* permutationVector(int row1, int row2, int size){
+    int* v = new int[size];
+    if(row1>size || row2>size){
         std::cout << "Index out of bounds ";
         std::cout << "for permutationVector."<<std::endl;
         return NULL;
     }else{
         for(int i=0; i<size; i++){
-            if(i == entry1) v[i] = entry2;
-            else if(i == entry2) v[i] = entry1;
+            if(i == row1) v[i] = row2;
+            else if(i == row2) v[i] = row1;
             else v[i] = i;
         }
     }
     return v;
 }
 
-void permuteVector(int* pi, double* v, int size){
-    int entry1 = pi[0];
-    int entry2 = pi[1];
-    if(entry1>size || entry2>size){
-        std::cout << "Index out of bounds ";
-        std::cout << "for permuteVector."<<std::endl;
-    }else{
-        double temp = v[entry1];
-        v[entry1] = v[entry2];
-        v[entry2] = temp;
-    }
+void PermuteVector(int n, int* pi, double* v){
+	double* temp = copyVector(v, n);
+    for (int i=0; i<n; i++){
+        int index = pi[i];
+        if(index != i) v[i] = temp[index];
+    } 
+    delete[] temp;
 }
 
-void permuteMatrix(int* pi, double** a_matrix, int size){
-    int row1_index = pi[0];
-    int row2_index = pi[1];
-    if(row1_index>size || row2_index>size){
-        std::cout << "Index out of bounds ";
-        std::cout << "for permuteMatrix."<<std::endl;
-    }else{
-        double* temp = a_matrix[row1_index];
-		a_matrix[row1_index] = a_matrix[row2_index];
-		a_matrix[row2_index] = temp;
-		//delete[] temp;
-    }
+void PermuteMatrix(int n, int* pi, double** M){
+    double** temp = allocateMatrixMemory(n,n); /*
+    temporary matrix.*/
+    copyMat(M, temp, n, n);/*
+    Copy the contents of M into temp.*/
+    for (int r=0; r<n; r++){
+        int index = pi[r];
+        if(index != r) M[r] = temp[index];
+    } 
+    delete[] temp;
 }
 
-double** fullPermutationMatrix(double* perm_vec, int size){
+double** fullPermutationMatrix(int* pi, int size){
     double** perm_mat = allocateMatrixMemory(size,size);
-    for (int row=0; row<size; row++){
-        double* v;
-        double index = perm_vec[row];
-        if(row == index) v = eyeV(row, size);
-        else v = eyeV(index, size);
-        perm_mat[row] = v;
+    for (int r=0; r<size; r++){
+    	int index_of_row = pi[r];
+        double* row = eyeV(index_of_row, size);
+        perm_mat[r] = row;
     }
     return perm_mat;
 }
 
-bool isAlmostZero(double number, double error_tol){
-	if (number < 0){ 
-		/* I make cases for negative number because 
-		abs(number) rounds the number.*/
-		return (number >= -error_tol);
-	}else{
-		return (number <= error_tol);
-	}
-}
-
-bool isVectorAlmostZero(double* vector, int size, double error_tol){
-	
-    bool value = true;
-	
-    for (int i=0; i<size; i++){
-		
-        double entry = vector[i];
-		
-        /* If any of its entries is not a computer zero,
-         return false i.e. not a zeros vector.*/
-		if(!isAlmostZero(entry, error_tol)) return false; 
-	}
-    
-	return value; 
-	/* After iterating through all entries, 
-	all of them are computer zeros.*/
-}
-
 /*-------Private Methods not intended for use outside this script.---------*/
-int* _P(int ix1, int ix2, int size){
-    // Contains information about the rows to be swapped
-    // inside a vector.
-    if(ix1>size || ix2>size){
-        std::cout << "Index out of bounds ";
-        std::cout << "for pi."<<std::endl;
-        return NULL;
-    }else{
-        int* result = new int[2];
-        result[0] = ix1;
-        result[1] = ix2;
-        return result;
-    }
-}
-
 double* _eliminate(double *row1, double *row2, double factor, int vecs_size){
 	
     double* result;
@@ -307,12 +289,10 @@ double* _eliminate(double *row1, double *row2, double factor, int vecs_size){
 	return result;
 }
 
-double* _initP(int size){
-	double* P0 = new double[size];
+void _initP(int* P, int size){
 	for(int i=0; i<size; i++){
-		P0[i] = i;
+		P[i] = i;
 	}
-	return P0;
 }
 
 int _findPivot(double** matrix, int position, int size){
