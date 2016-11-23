@@ -4,6 +4,8 @@
 #include "matrix_allocation.cpp"
 #include "VecsAndMats.cpp"
 
+const int MAX_N = 21;
+
 double* f(double* xs, int n);
 double f(double x);
 
@@ -15,6 +17,7 @@ double infinityNorm(double* a_vector, int size);
 
 int main(){
 	int* ns = _ns();
+	double* errors = new double[MAX_N];
 	for (int i=0; i<20; i++){
 		int n = ns[i]+1;
 
@@ -40,6 +43,8 @@ int main(){
 		//PrintVector(n+1, residual, "residual");
 		double error = infinityNorm(residual, n);
 
+		errors[i] = error;
+
 		std::cout << "For n = " << n-1 << ", ";
 		std::cout << "error = " << error << std::endl;
 
@@ -55,7 +60,9 @@ int main(){
 		freeMatrixMemory(n, D);
 		delete[] us;
 		delete[] approx_sol;
-	}
+}
+	PrintVector(20, errors, "errors");
+	SaveVectorToFile(20, errors, "error.dat");
 	delete[] ns;
 }
 
