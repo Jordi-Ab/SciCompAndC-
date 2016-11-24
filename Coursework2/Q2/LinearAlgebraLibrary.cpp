@@ -133,15 +133,12 @@ void BackSubstitution(int n ,double** U ,double* b){
 
 void ForwardSubstitution ( int n , double ** L , double * b ){
 	for(int i=0; i<n; i++){
-		
         double rhs = b[i]; // rhs stands for right hand side.
-        std::
 		
         for(int j=0; j<i; j++){
-			rhs -= b[j]*L[i][j];
+			rhs -= (L[i][j]*b[j]);
 		}
-		
-        b[i] = rhs/L[i][n-1-i];
+        b[i] = rhs/L[i][i];
 	}
 
 }
