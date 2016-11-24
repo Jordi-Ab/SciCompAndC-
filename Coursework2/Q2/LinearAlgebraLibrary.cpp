@@ -7,93 +7,58 @@
 #include "VecsAndMats.cpp"
 
 /*----------Main Functions to perform PLU factorization.-----------*/
+
+/*
+Receives a square matrix,
+Overwrites .... 
+of the matrix, in the form PA = LU,
+such that A = P^T.L.U
+P -> Permutation matrix
+L -> Inverse of the Elimination matrix
+U -> Upper triangular form of the matrix 
+*/
+
+//toUpperTriangular(U, P, L, n,n);
+/*When taking a matrix to Upper Triangular with
+partial pivoting, the stored matrices are as follows
+Mn.Pn....M2.P2.M1.P1.A = U. So that, A = LU,
+With L = (Mn.Pn....M2.P2.M1.P1)^-1. However, 
+in that way L is not Lower triangular, so we have to
+manipulate L so that the factorization ends up as
+PA = LU, with L being lower triangular.
+toLprime(L,n) function does this. */
 void PLUDecomposition (int n , double ** A , 
 						double ** L , double ** U , 
 						int * pi ){
 	_initP(pi, n);
 	copyMat(A, U, n, n);
 	matrixToIdentity(L, n, n);
-	PrintMatrix(n, n, U, "Initial A: ");
+	//PrintMatrix(n, n, U, "Initial A: ");
 	for(int row_at=0; row_at<n; row_at++){
-		print("row_at = ", false);
-		print(row_at);
-
-		// Permutation step:
-        int pivot_index = _findPivot(U, row_at, n);
-        print("pivot index: ", false);
-        print(pivot_index);
-        if (row_at != pivot_index){
-			print("swap_rows: ");
-			//PrintVector(2, pi, "pi");
-			swapRows(row_at, pivot_index, U);
-			PrintMatrix(n, n, U, "Permuted A: ");
-			swapElements(row_at, pivot_index, pi);
-			PrintVector(n, pi, "perm vec:");
-		}
-		
-		toLprime(L, row_at, pivot_index);
-		PrintMatrix(n, n, L, "L': ");
-        
-        eliminationStep(U, L, row_at, n, n);
-        PrintMatrix(n, n, U, "Eliminated A: ");
-        
-	}
-
-}
-		/*
-		Receives a square matrix,
-		Overwrites .... 
-		of the matrix, in the form PA = LU,
-		such that A = P^T.L.U
-		P -> Permutation matrix
-		L -> Inverse of the Elimination matrix
-		U -> Upper triangular form of the matrix 
-		*/
-
-		//toUpperTriangular(U, P, L, n,n);
-		/*When taking a matrix to Upper Triangular with
-		partial pivoting, the stored matrices are as follows
-		Mn.Pn....M2.P2.M1.P1.A = U. So that, A = LU,
-		With L = (Mn.Pn....M2.P2.M1.P1)^-1. However, 
-		in that way L is not Lower triangular, so we have to
-		manipulate L so that the factorization ends up as
-		PA = LU, with L being lower triangular.
-		toLprime(L,n) function does this. */
-
-/*void toUpperTriangular(double** matrix, double* perm_vec,
-						double** L, 
-						int n_rows, int n_cols){
-	//PrintMatrix(n_rows, n_cols, matrix, "Initial A: ");
-	for(int row_at=0; row_at<n_rows; row_at++){
 		//print("row_at = ", false);
 		//print(row_at);
 
 		// Permutation step:
-        int pivot_index = _findPivot(matrix, row_at, n_rows);
+        int pivot_index = _findPivot(U, row_at, n);
         //print("pivot index: ", false);
         //print(pivot_index);
         if (row_at != pivot_index){
-			int *pi = _P(row_at, pivot_index, n_rows);
 			//print("swap_rows: ");
 			//PrintVector(2, pi, "pi");
-			permuteMatrix(pi, matrix, n_rows);
-			//PrintMatrix(n_rows, n_cols, matrix, "Permuted A: ");
-			permuteVector(pi, perm_vec, n_rows);
-			//PrintVector(n_rows, perm_vec, "perm vec:");
+			swapRows(row_at, pivot_index, U);
+			//PrintMatrix(n, n, U, "Permuted A: ");
+			swapElements(row_at, pivot_index, pi);
+			//PrintVector(n, pi, "perm vec:");
 		}
 		
 		toLprime(L, row_at, pivot_index);
-		//PrintMatrix(n_rows, n_cols, L, "L': ");
+		//PrintMatrix(n, n, L, "L': ");
         
-        eliminationStep(matrix, L, row_at, n_rows, n_cols);
-        //PrintMatrix(n_rows, n_cols, matrix, "Eliminated A: ");
+        eliminationStep(U, L, row_at, n, n);
+        //PrintMatrix(n, n, U, "Eliminated A: ");
         
 	}
-}*/
 
-void permutationStep(double** matrix, int current_row, 
-					int pivot_index, int n_rows){
-	 
 }
 
 void eliminationStep(double** matrix, double** L, 
@@ -144,6 +109,44 @@ void toLprime(double** L, int row_at, int pivot_index){
 		swapMatrixEntries(L, row1, col1, row2, col2);
 	}
 } 
+
+/*Main Functions to Solve a Linear System.*/
+void SolveLinearSystem(int n, double** L, double** U,
+						int* pi, double* b){
+
+}
+
+
+void BackSubstitution(int n ,double** U ,double* b){
+	for(int i=n-1; i>=0; i--){
+		
+        double rhs = b[i]; // rhs stands for right hand side.
+		
+        for(int j=n-1; j>i; j--){
+			rhs -= b[j]*U[i][j];
+		}
+		
+        b[i] = rhs/U[i][i];
+	}
+
+}
+
+void ForwardSubstitution ( int n , double ** L , double * b ){
+	for(int i=0; i<n; i++){
+		
+        double rhs = b[i]; // rhs stands for right hand side.
+        std::
+		
+        for(int j=0; j<i; j++){
+			rhs -= b[j]*L[i][j];
+		}
+		
+        b[i] = rhs/L[i][n-1-i];
+	}
+
+}
+
+
 
 
 /*-------Some helpers to achive the PLU factorization.--------*/

@@ -8,13 +8,18 @@ void toUpperTriangular(double** matrix, int* perm_vec,
 						double** L, 
 						int n_rows, int n_cols);
 
-void permutationStep(double** matrix, int current_row, 
-					int pivot_index, int n_rows);
-
 void eliminationStep(double** matrix, double** L, 
 					int position, int n_rows, int n_cols);
 
 void toLprime(double** L, int row_at, int pivot_index);
+
+void SolveLinearSystem(int n, double** L, double** U,
+						int* pi, double* b);
+
+
+void BackSubstitution(int n ,double** U ,double* b);
+
+void ForwardSubstitution ( int n , double ** L , double * b );
 
 /*-Some helpers to achive the PLU factorization.-*/
 

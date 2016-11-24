@@ -8,8 +8,12 @@
 double** fixedA(int n_rows, int n_cols);
 double** bookExample(int n_rows, int n_cols);
 double** andreasA(int n_rows, int n_cols);
+void testBackwardSubstitution();
+void testForwardSubstitution();
 
 int main(){
+
+    /*
 	int size = 4;
     print("size = ", false);
     print(size);
@@ -34,6 +38,8 @@ int main(){
 
     double** residual = substractMat(A, LU, size);
     PrintMatrix(size,size, residual, "(PA - LU)");
+    */
+    testForwardSubstitution();
 
     return 0;
 }
@@ -83,4 +89,42 @@ double** andreasA(int n_rows, int n_cols){
     A[2][0] =  1;A[2][1] = 17;A[2][2] =   1;A[2][3] = -4;
     A[3][0] = -5;A[3][1] = -8;A[3][2] =  -6;A[3][3] = -2;
     return A;
+}
+
+void testBackwardSubstitution(){
+    double** A = allocateMatrixMemory(4,4);
+    A[0][0] = 1.3123;A[0][1] = -0.0464;A[0][2] = 2.1864;A[0][3] = -0.161;
+    A[1][0] = 0;A[1][1] = -1.2279;A[1][2] = -0.3056;A[1][3] = -0.0977;
+    A[2][0] = 0;A[2][1] = 0;A[2][2] = .7035;A[2][3] = -1.8221;
+    A[3][0] = 0;A[3][1] = 0;A[3][2] = 0;A[3][3] = -.7815;
+
+    double x[4] = {.2542, .5142, .9187, 1.1699};
+    double b[4] = {2.13, -1.0264, -1.4854, -.9143};
+
+    PrintMatrix(4,4, A, "A");
+    PrintVector(4, b, "b");
+
+    BackSubstitution(4 ,A ,b);
+    PrintVector(4, b, "x");
+    PrintVector(4, x, "true x");
+}
+
+void testForwardSubstitution(){
+    double** A = allocateMatrixMemory(4,4);
+    
+    A[0][0] = 0;A[0][1] = 0;A[0][2] = 0;A[0][3] = -.7815;
+    A[1][0] = 0;A[1][1] = 0;A[1][2] = .7035;A[1][3] = -1.8221;
+    A[2][0] = 0;A[2][1] = -1.2279;A[2][2] = -0.3056;A[2][3] = -0.0977;
+    A[3][0] = 1.3123;A[3][1] = -0.0464;A[3][2] = 2.1864;A[3][3] = -0.161;
+    
+    double x[4] = {.2542, .5142, .9187, 1.1699};
+    double b[4] = {2.13, -1.0264, -1.4854, -.9143};
+
+    PrintMatrix(4,4, A, "A");
+    PrintVector(4, b, "b");
+
+    BackSubstitution(4 ,A ,b);
+    PrintVector(4, b, "x");
+    PrintVector(4, x, "true x");
+
 }
