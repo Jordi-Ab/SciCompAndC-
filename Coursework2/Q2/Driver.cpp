@@ -5,19 +5,59 @@
 #include "myRandom.cpp"
 #include "VecsAndMats.hpp"
 
-double** fixedA(int n_rows, int n_cols);
-double** bookExample(int n_rows, int n_cols);
-double** andreasA(int n_rows, int n_cols);
-void testBackwardSubstitution();
-void testForwardSubstitution();
+double** _fixedA(int n_rows, int n_cols);
+double** _bookExample(int n_rows, int n_cols);
+double** _andreasA(int n_rows, int n_cols);
+void _testBackwardSubstitution();
+void _testForwardSubstitution();
+void _testPLU();
 
 int main(){
 
-    
+	int n = 3;
+
+    double** A = allocateMatrixMemory(n,n);
+    int* pi = new int[n];
+	double** L = allocateMatrixMemory(n, n);
+	double** U = allocateMatrixMemory(n, n);
+
+    A[0][0] = 1;A[0][1] = 2;A[0][2] = 3;
+    A[1][0] = 7;A[1][1] = 5;A[1][2] = 2;
+    A[2][0] = 4;A[2][1] = 8;A[2][2] = 1;
+
+    double b1[3] = {1,2,3};
+    double b2[3] = {2,5,6};
+
+	PLUDecomposition(n, A, L, U, pi);
+
+	PrintMatrix(n,n, A, "A");
+	PrintMatrix(n,n, L, "L");
+	PrintMatrix(n,n, U, "U");
+	PrintVector(n, pi, "P");
+
+	std::cout << "Solving system A x = b1:" << std::endl;
+	std::cout << " " << std::endl;
+	PrintVector(n, b1, "b1");
+	SolveLinearSystem(n, L, U, pi, b1);
+	PrintVector(n, b1, "x1 solution");
+
+	std::cout << " " << std::endl;
+	std::cout << "Solving system A x = b2:" << std::endl;
+	std::cout << " " << std::endl;
+	PrintVector(n, b2, "b2");
+	SolveLinearSystem(n, L, U, pi, b2);
+	PrintVector(n, b2, "x2 solution");
+
+	return 0;
+}
+
+void _testPLU(){
 	int size = 4;
     print("size = ", false);
     print(size);
-    double** A = andreasA(size,size);
+    //double** A = _andreasA(size,size);
+    //double** A = _fixedA(size,size);
+    double** A = _bookExample(size,size);
     PrintMatrix(size,size, A, "A");
 
 	int* pi = new int[size];
@@ -30,7 +70,6 @@ int main(){
 	PrintVector(size, pi, "P");
 
 	PermuteMatrix(size, pi, A);
-    //double** PA = matrixTimesMatrix(fullP, A, size);
     PrintMatrix(size,size, A, "PA");
 
     double** LU = matrixTimesMatrix(L, U, size);
@@ -39,10 +78,9 @@ int main(){
     double** residual = substractMat(A, LU, size);
     PrintMatrix(size,size, residual, "(PA - LU)");
 
-    return 0;
 }
 
-double** fixedA(int n_rows, int n_cols){
+double** _fixedA(int n_rows, int n_cols){
     /*
      * Create a fixed matrix for example.
      */
@@ -61,7 +99,7 @@ double** fixedA(int n_rows, int n_cols){
     return A;
 }
 
-double** bookExample(int n_rows, int n_cols){
+double** _bookExample(int n_rows, int n_cols){
     /*
      * Create a fixed matrix for example.
      */
@@ -75,7 +113,7 @@ double** bookExample(int n_rows, int n_cols){
     return A;
 }
 
-double** andreasA(int n_rows, int n_cols){
+double** _andreasA(int n_rows, int n_cols){
     /*
      * Create a fixed matrix for example.
      */
@@ -89,7 +127,7 @@ double** andreasA(int n_rows, int n_cols){
     return A;
 }
 
-void testBackwardSubstitution(){
+void _testBackwardSubstitution(){
     double** A = allocateMatrixMemory(4,4);
     A[0][0] = 1.3123;A[0][1] = -0.0464;A[0][2] = 2.1864;A[0][3] = -0.161;
     A[1][0] = 0;A[1][1] = -1.2279;A[1][2] = -0.3056;A[1][3] = -0.0977;
@@ -107,7 +145,7 @@ void testBackwardSubstitution(){
     PrintVector(4, x, "true x");
 }
 
-void testForwardSubstitution(){
+void _testForwardSubstitution(){
     double** A = allocateMatrixMemory(4,4);
     
     A[0][0] = -.7815;A[0][1] = 0;A[0][2] = 0;A[0][3] = 0;

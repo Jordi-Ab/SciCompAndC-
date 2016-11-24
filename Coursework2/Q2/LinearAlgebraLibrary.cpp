@@ -113,7 +113,11 @@ void toLprime(double** L, int row_at, int pivot_index){
 /*Main Functions to Solve a Linear System.*/
 void SolveLinearSystem(int n, double** L, double** U,
 						int* pi, double* b){
-
+	PermuteVector(n, pi, b);
+	ForwardSubstitution(n ,L ,b);
+	BackSubstitution(n ,U ,b);
+	/* Now the result x of the system LUx = Pb
+	is stores in x.*/
 }
 
 
