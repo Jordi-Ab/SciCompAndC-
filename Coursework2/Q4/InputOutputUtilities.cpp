@@ -4,6 +4,29 @@
 #include <iomanip>
 #include <assert.h>
 
+// Prints a message on the console screen. 
+// EOL flag stands for End Of Line, is set
+// to true as default. Set to false if you don't
+// want a new line after printing.
+void print(std::string message, bool EOL){
+  // When a string is given to print function.
+  if (EOL){
+    std::cout << message << std::endl;
+  }else{
+    std::cout << message;
+  }
+
+}
+void print(double message, bool EOL){ 
+  // When a number is given to print function.
+  if (EOL){
+    std::cout << message << std::endl;
+  }else{
+    std::cout << message;
+  }
+
+}
+
 // Prints on screen an array v of doubles of lengthn .
 // The vector name is also displayed
 void PrintVector(int n, double* v, std::string vectorName)
@@ -52,7 +75,7 @@ void PrintMatrix(int n, int m, double** A, std::string matrixName)
 
 // Prints two columns of formatted output to visualise current iterations and errors
 // A header can optionally be printed.
-void PrintError(int n, double error, bool writeHeader = false)
+void PrintError(int n, double error, bool writeHeader)
 {
   if (writeHeader)
   {

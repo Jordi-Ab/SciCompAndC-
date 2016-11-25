@@ -35,6 +35,7 @@ int main(){
 	PrintMatrix(n,n, U, "U");
 	PrintVector(n, pi, "P");
 
+	std::cout << " " << std::endl;
 	std::cout << "Solving system A x = b1:" << std::endl;
 	std::cout << " " << std::endl;
 	PrintVector(n, b1, "b1");

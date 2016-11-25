@@ -16,19 +16,15 @@ int* _ns();
 double infinityNorm(double* a_vector, int size);
 
 int main(){
-	int* ns = _ns();
+	int* ns = _ns(); // ns = [2,4,6,8,...,40]
 	double* errors = new double[MAX_N];
 	for (int i=0; i<MAX_N; i++){
 		int n = ns[i]+1;
-		//int n=10;
-
+		
 		double* mesh = new double[n];
 		double** D = allocateMatrixMemory(n,n);
 
 		ChebyshevDifferentiationMatrix(n-1, mesh, D);
-		//PrintVector(n+1, mesh, "mesh");
-		//PrintMatrix(n+1,n+1, D, "Diff");
-
 		
 		double* us = f(mesh, n);
 		//PrintVector(n+1, us, "us");
