@@ -1,32 +1,15 @@
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
-#include "matrix_allocation.hpp"
 #include "LinearAlgebraLibrary.hpp"
 #include "InputOutputUtilities.hpp"
-#include "VecsAndMats.hpp"
+#include "VecsAndMats.hpp"/*
+Include the headers so I don't have to explicitly
+declare the protoypes.*/
 
 /*----------Main Functions to perform PLU factorization.-----------*/
 
-/*
-Receives a square matrix,
-Overwrites .... 
-of the matrix, in the form PA = LU,
-such that A = P^T.L.U
-P -> Permutation matrix
-L -> Inverse of the Elimination matrix
-U -> Upper triangular form of the matrix 
-*/
 
-//toUpperTriangular(U, P, L, n,n);
-/*When taking a matrix to Upper Triangular with
-partial pivoting, the stored matrices are as follows
-Mn.Pn....M2.P2.M1.P1.A = U. So that, A = LU,
-With L = (Mn.Pn....M2.P2.M1.P1)^-1. However, 
-in that way L is not Lower triangular, so we have to
-manipulate L so that the factorization ends up as
-PA = LU, with L being lower triangular.
-toLprime(L,n) function does this. */
 void PLUDecomposition (int n , double ** A , 
 						double ** L , double ** U , 
 						int * pi ){

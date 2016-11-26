@@ -1,9 +1,3 @@
-// Prints a message on the console screen. 
-// EOL flag stands for End Of Line, is set
-// to true as default. Set to false if you don't
-// want a new line after printing.
-void print(std::string message, bool EOL=true);
-void print(double message, bool EOL=true);
 
 // Prints on screen an array v of doubles of lengthn .
 // The vector name is also displayed
@@ -23,4 +17,8 @@ void PrintError(int n, double error, bool writeHeader = false);
 
 // Saves an array of length n to a file
 void SaveVectorToFile(int n, double* v, std::string fileName);
+
+// Saves the errors vector in two columns, the first column is the 
+// numbering from 0 to n.
+void SaveErrorsVectorToFile(int n, double* v, std::string fileName);
 

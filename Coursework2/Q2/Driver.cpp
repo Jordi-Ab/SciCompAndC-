@@ -8,6 +8,7 @@
 double** _fixedA(int n_rows, int n_cols);
 double** _bookExample(int n_rows, int n_cols);
 double** _andreasA(int n_rows, int n_cols);
+double** _anotherA(int n_rows, int n_cols);
 void _testBackwardSubstitution();
 void _testForwardSubstitution();
 void _testPLU();
@@ -49,6 +50,8 @@ int main(){
 	SolveLinearSystem(n, L, U, pi, b2);
 	PrintVector(n, b2, "x2 solution");
 
+	_testPLU();
+
 	return 0;
 }
 
@@ -57,8 +60,9 @@ void _testPLU(){
     print("size = ", false);
     print(size);
     //double** A = _andreasA(size,size);
+    double** A = _anotherA(size,size);
     //double** A = _fixedA(size,size);
-    double** A = _bookExample(size,size);
+    //double** A = _bookExample(size,size);
     PrintMatrix(size,size, A, "A");
 
 	int* pi = new int[size];
@@ -121,10 +125,24 @@ double** _andreasA(int n_rows, int n_cols){
 
     double** A = allocateMatrixMemory(n_rows, n_cols);
     
-    A[0][0] =  0;A[0][1] =  4;A[0][2] =  19;A[0][3] = -7;
+    A[0][0] =  1e-8;A[0][1] =  4;A[0][2] =  19;A[0][3] = -7;
     A[1][0] = -1;A[1][1] = -2;A[1][2] = -10;A[1][3] = -0;
     A[2][0] =  1;A[2][1] = 17;A[2][2] =   1;A[2][3] = -4;
     A[3][0] = -5;A[3][1] = -8;A[3][2] =  -6;A[3][3] = -2;
+    return A;
+}
+
+double** _anotherA(int n_rows, int n_cols){
+    /*
+     * Create a fixed matrix for example.
+     */
+
+    double** A = allocateMatrixMemory(n_rows, n_cols);
+    
+    A[0][0] =  -3.15331e+01;A[0][1] =  1.26833e+01;A[0][2] =  -3.69443e+00;A[0][3] = 2.21115e+00;
+    A[1][0] = 7.31672e+00;A[1][1] = -1.00669e+01;A[1][2] = 5.78885e+00;A[1][3] = -1.90557e+00;
+    A[2][0] =  -1.90557e+00;A[2][1] = 5.78885e+00;A[2][2] = -1.00669e+01;A[2][3] = 7.31672e+00;
+    A[3][0] = 2.21115e+00;A[3][1] = -3.69443e+00;A[3][2] =  1.26833e+01;A[3][3] = -3.15331e+01;
     return A;
 }
 

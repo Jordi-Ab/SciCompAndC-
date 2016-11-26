@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1479931696 source:/Users/Gareth/Google Drive/UoN Mathematics/G14SCC Scientific Computing and C++/Coursework 2/Templates/Q4/Chebyshev.cpp
+	<cmath>
+	<iostream>
+
+1480072834 source:/Users/Gareth/Google Drive/UoN Mathematics/G14SCC Scientific Computing and C++/Coursework 2/Templates/Q4/Driver.cpp
+	<iostream>
+	<fstream>
+	<cmath>
+
+1478355495 source:/Users/Gareth/Google Drive/UoN Mathematics/G14SCC Scientific Computing and C++/Coursework 2/Templates/Q4/InputOutputUtilities.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<iomanip>
+	<assert.h>
+
+1479915574 source:/Users/Gareth/Google Drive/UoN Mathematics/G14SCC Scientific Computing and C++/Coursework 2/Templates/Q4/LinearAlgebraLibrary.cpp
+	<iostream>
+	<cmath>
+
+1479914752 source:/Users/Gareth/Google Drive/UoN Mathematics/G14SCC Scientific Computing and C++/Coursework 2/Templates/Q4/mat_mat_prod.cpp
+
+1479907613 source:/Users/Gareth/Google Drive/UoN Mathematics/G14SCC Scientific Computing and C++/Coursework 2/Templates/Q4/mat_row_prod.cpp
+
+1479901236 source:/Users/Gareth/Google Drive/UoN Mathematics/G14SCC Scientific Computing and C++/Coursework 2/Templates/Q4/matrix_allocation.cpp
+

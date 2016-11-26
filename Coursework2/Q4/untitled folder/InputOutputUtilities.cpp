@@ -4,7 +4,6 @@
 #include <iomanip>
 #include <assert.h>
 
-
 // Prints on screen an array v of doubles of lengthn .
 // The vector name is also displayed
 void PrintVector(int n, double* v, std::string vectorName)
@@ -53,7 +52,7 @@ void PrintMatrix(int n, int m, double** A, std::string matrixName)
 
 // Prints two columns of formatted output to visualise current iterations and errors
 // A header can optionally be printed.
-void PrintError(int n, double error, bool writeHeader)
+void PrintError(int n, double error, bool writeHeader = false)
 {
   if (writeHeader)
   {
@@ -86,29 +85,6 @@ void SaveVectorToFile(int n, double* v, std::string fileName)
   for (int i=0; i<n; i++)
   {
     output_file << std::setw(15) << v[i] << std::endl;
-  }
-
-  // Close file
-  output_file.close();
-
-}
-
-void SaveErrorsVectorToFile(int n, double* v, std::string fileName)
-{
-
-  // Format output
-  std::ofstream output_file;
-  output_file.setf(std::ios::scientific,std::ios::floatfield);
-  output_file.precision(6);
-
-  // Open file (and perform a check)
-  output_file.open(fileName);
-  assert(output_file.is_open());
-
-  // Write data
-  for (int i=0; i<n; i++)
-  {
-    output_file  << i <<  std::setw(15) << v[i] << std::endl;
   }
 
   // Close file

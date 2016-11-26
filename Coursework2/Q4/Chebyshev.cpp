@@ -1,5 +1,7 @@
 #include <cmath>
-#include "matrix_allocation.hpp"
+#include "VecsAndMats.hpp"/*
+Include the headers so I don't have to explicitly
+declare the protoypes.*/
 
 void GCLmesh(int n, double* mesh){
 
