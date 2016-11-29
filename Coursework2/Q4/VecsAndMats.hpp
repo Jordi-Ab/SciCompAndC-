@@ -187,8 +187,7 @@ i.e. All its elements are less that a given
 tolerance.
 # Default tolerance is 1e-8.
 */
-bool isVectorAlmostZero(double* vector, int size,
-                        double error_tol);
+bool isVectorAlmostZero(double* vector, int size);
 
 /*
 Function: isAlmostZero
@@ -197,4 +196,4 @@ Returns true if a given number is almost zero.
 i.e. Is less that a given tolerance.
 # Default tolerance is 1e-8.
 */
-bool isAlmostZero(double number, double error_tol);
+bool isAlmostZero(double number);

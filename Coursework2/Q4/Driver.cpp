@@ -1,27 +1,16 @@
 #include <stdexcept>
 #include <string>
-// Compile dependencies just once in the Driver.
 #include "Chebyshev.cpp"
 #include "VecsAndMats.cpp"
 #include "InputOutputUtilities.cpp"
-#include "LinearAlgebraLibrary.cpp"
+#include "LinearAlgebraLibrary.cpp"/*
+Compile the .cpp files just once in the Driver*/
 
 const double TOL = 1e-8;
 const int MAX_ITER = 100;
 
 void f(double* xs, int n);
-/*
-Things missing:
 
-Comments on the .hpp's
-Add a readme.txt to explain the extra files.
-Make all dependency files equal.
-Clean code:
-	free all memory.
-	place comments.
-	put functions on the right places.
-	delete unused functions.
-*/
 int main(){
 	int n = 40;
 	double* mesh = new double[n];
@@ -70,6 +59,8 @@ int main(){
 		double* difference = substractV(next_u, prev_u, n);
 		double norm_of_error = infinityNorm(difference,n);
 		errors[iter-1] = norm_of_error;
+		std::cout << "Iteration: " << iter;
+		std::cout << ", error is: " << norm_of_error<<std::endl;
 		delete[] difference;
 
 		if (iter > MAX_ITER){ /*
@@ -80,8 +71,6 @@ int main(){
 			Stop the program.*/
 		} else if (norm_of_error<=TOL){/*
 		Found a solution*/
-			std::cout << "Done" << std::endl;
-			PrintVector(n, next_u, "Result");
 			break; // Exit while loop.
 		}else{ /* 
 		keep iterating */
@@ -89,12 +78,11 @@ int main(){
 			copyV(prev_u, next_u, n); /*
 			store the content of next_u on prev_u
 			and keep iterating.*/
-			PrintVector(n, next_u, "u");
 		}
 	}
 
 	/*------Writing results on Files-------*/
-	bool use_complete_path = true;
+	bool use_complete_path = false;
 	std::string cwd = "";
 	if(use_complete_path){
 		cwd = "/Users/user/Documents/Maestria/SciCompCpp/SciCompCpp_git/Coursework2/Q4/";

@@ -1,15 +1,7 @@
 #include <iostream>
 #include <cmath>
 
-bool isAlmostZero(double number, double error_tol=1e-8){
-	if (number < 0){ // I make cases for negative number because abs(number) rounds the number.
-		return (number >= -error_tol);
-	}else{
-		return (number <= error_tol);
-	}
-}
-
-double** createMatrix(int n_rows, int n_cols){
+double** allocateMatrixMemory(int n_rows, int n_cols){
 	double** matrix;
 	matrix = new double* [n_rows];
 	for (int i=0; i<n_rows; i++){
@@ -18,11 +10,19 @@ double** createMatrix(int n_rows, int n_cols){
 	return matrix;
 }
 
-void deleteMatrix(int n_rows, double** matrix){
+void freeMatrixMemory(int n_rows, double** matrix){
 	for (int i=0; i<n_rows; i++) {
 		delete[] matrix[i];
 	}
 	delete[] matrix;
+}
+
+bool isAlmostZero(double number){
+	if (number < 0){ // I make cases for negative number because abs(number) rounds the number.
+		return (number >= -1e-8);
+	}else{
+		return (number <= 1e-8);
+	}
 }
 
 double dot(double *v1, double *v2, int size){
@@ -78,6 +78,17 @@ double l2Norm(double* a_vector, int size){
         norm += pow(a_vector[i],2.0);
     }
     return sqrt(norm);
+}
+
+double infinityNorm(double* a_vector, int size){
+	double max_entry = std::abs(a_vector[0]);
+	for (int i=1; i<size; i++){
+		double next_entry = std::abs(a_vector[i]);
+		if(next_entry > max_entry){
+			max_entry = next_entry;
+		}
+	}
+	return max_entry;
 }
 
 double* substractV(double *v1, double *v2, int size){
@@ -136,11 +147,7 @@ double** matrixTimesConstant(double** matrix, double constant, int size){
 	}
 	return result;
 }
-/*
-Receives a matrix and an index.
-Returns Returns a new 1-D array, containing 
-the column of the given matrix located at the given index.
-*/
+
 double* getColumn(double** matrix, int index, int size){
 	double* column = NULL;
 	if (index >= size){
@@ -154,11 +161,6 @@ double* getColumn(double** matrix, int index, int size){
 	return column;
 }
 
-/*
-Receives a matrix and an index.
-Returns a new 1-D array, containing 
-the row of the given matrix located at the given index.
-*/
 double* getRow(double** matrix, int index, int size){
 	double* row = NULL;
 	if (index >= size){
@@ -172,7 +174,7 @@ double* getRow(double** matrix, int index, int size){
 
 double** matrixTimesMatrix(double** m1, double** m2, int size){
 	double** result;
-	result = createMatrix(size, size);
+	result = allocateMatrixMemory(size, size);
 	for (int r=0; r<size; r++){
 		double *row = getRow(m1, r, size);
 		for (int c=0; c<size; c++){
@@ -184,8 +186,7 @@ double** matrixTimesMatrix(double** m1, double** m2, int size){
 }
 
 
-bool isVectorAlmostZero(double* vector, int size, 
-						double error_tol=1e-8){
+bool isVectorAlmostZero(double* vector, int size){
 	
     bool value = true;
 	
@@ -195,7 +196,7 @@ bool isVectorAlmostZero(double* vector, int size,
 		
         /* If any of its entries is not a computer zero,
          return false i.e. not a zeros vector.*/
-		if(!isAlmostZero(entry, error_tol)) return false; 
+		if(!isAlmostZero(entry)) return false; 
 	}
     
 	return value; // After iterating through all entries, all of them are computer zeros.

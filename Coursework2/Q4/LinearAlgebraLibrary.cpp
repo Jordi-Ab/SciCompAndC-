@@ -16,29 +16,18 @@ void PLUDecomposition (int n , double ** A ,
 	_initP(pi, n);
 	copyMat(A, U, n, n);
 	matrixToIdentity(L, n, n);
-	//PrintMatrix(n, n, U, "Initial A: ");
 	for(int row_at=0; row_at<n; row_at++){
-		//print("row_at = ", false);
-		//print(row_at);
 
 		// Permutation step:
         int pivot_index = _findPivot(U, row_at, n);
-        //print("pivot index: ", false);
-        //print(pivot_index);
         if (row_at != pivot_index){
-			//print("swap_rows: ");
-			//PrintVector(2, pi, "pi");
 			swapRows(row_at, pivot_index, U);
-			//PrintMatrix(n, n, U, "Permuted A: ");
 			swapElements(row_at, pivot_index, pi);
-			//PrintVector(n, pi, "perm vec:");
 		}
 		
 		toLprime(L, row_at, pivot_index);
-		//PrintMatrix(n, n, L, "L': ");
         
         eliminationStep(U, L, row_at, n, n);
-        //PrintMatrix(n, n, U, "Eliminated A: ");
         
 	}
 

@@ -1,12 +1,10 @@
 #include <iostream>
 #include "matrix_allocation.cpp"
 
-/*
-Function: copyVector
-Usage: copyVector(vector, 4);
----------------------------------------
-Returns a new vector which is the copy of the
-given vector.
+/*Function: copyVector
+---------------------------------------------
+Returns a new vector that will hold the same
+values and size as the given vector.
 */
 double* copyVector(double* a_vector, int n){
 	double* copy = new double[n];
@@ -18,11 +16,9 @@ double* copyVector(double* a_vector, int n){
 
 /*
 Function: swapElements
-Usage: swapElements(0, 2, a_vector);
----------------------------------------
-Swaps the element located at index "ix1"
-with the element located at index "ix2"
-inside a given vector.
+---------------------------------------------
+Swaps the element at index "ix1", with the element
+at index "ix2" inside a vector of doubles.
 
 # Mutates the given vector.
 */
@@ -33,21 +29,14 @@ void swapElements(int ix1, int ix2, double* vector){
 }
 
 
-/*
- Function: permuteVector
- Usage: permuteVector(3, perm_vec, a_vec)
- ---------------------------------------
- Receives:
-    . "n" -> Size of the vector and the
-       permutation vector (must be equally sized)
-    ."pi" -> A Permutation vector.
-        (Contains information about the rows to be permuted)
-    . "v" -> The vector to be permuted.
- Returns:
-    . Nothing, overwrites the given vector "v".
 
- Has the effect of swaping the rows of "v" according to
- the given permutation vector "pi".
+/*Function: PermuteVector
+---------------------------------------------
+Given a permutation vector "pi", swaps entries inside
+the given vector, corresponding to the entries of pi.
+
+i.e. pi = [2,1,0,3,4] will swap entry 0 with entry 2
+inside v.
 */
 void PermuteVector(int n, int* pi, double* v){
 	double* temp = copyVector(v, n);
@@ -58,21 +47,12 @@ void PermuteVector(int n, int* pi, double* v){
     delete[] temp;
 }
 
-/*
- Function: permutationVector
- Usage: permutationVector(3, 0, 4);
- ---------------------------------------
- Given row1, row2, and the size of the vector.
- Returns a permutation vector that has information
- about the rows to be permuted on a matrix,
- (or the entries to be permuted in a vector).
- In other words, contains the indices where the
- entries of a vector should be located.
-
- i.e. 
- permutationVector(3, 0, 4) = [3,1,2,0,4]
- That means a swap of element in 0 with element in 3
-
+/*Function: permutationVector
+---------------------------------------------
+Returns a permutation vector that contains information
+about the rows to be swapped inside a matrix, or the
+entries to be swapped inside a vector.
+# Vector respresentation of a permutation matrix.
 */
 int* permutationVector(int row1, int row2, int size){
     int* v = new int[size];
@@ -92,10 +72,11 @@ int* permutationVector(int row1, int row2, int size){
 
 /*
 Function: eyeV
-Usage: eyeV(2, 5);
----------------------------------------
-Returns a vector of zeros of given size, 
-with a 1 located at the given "entry".
+---------------------------------------------
+Returns a new pointer to a vector, having
+zeros and a one in the given entry.
+
+i.e. A unit vector like [0,1,0,......0]
 */
 double* eyeV(int entry, int size){
     double* vector = new double[size];
@@ -113,13 +94,15 @@ double* eyeV(int entry, int size){
     return vector;
 }
 
-/*
-Function: fullPermutationMatrix
-Usage: fullPermutationMatrix(perm_vec, 10);
----------------------------------------
-Given a permutation vector, returns its
-corresponding permutation Matrix.
-(Identity Matrix with rows swapped.)
+/*Function: fullPermutationMatrix
+---------------------------------------------
+Given a permutation vector "pi", returns its 
+corresponding Permutation Matrix.
+i.e. pi = [2,1,0,3,4] will return:
+|0 0 1 0|
+|0 1 0 0|
+|1 0 0 0|
+|0 0 0 1|
 */
 double** fullPermutationMatrix(int* pi, int size){
     double** perm_mat = allocateMatrixMemory(size,size);

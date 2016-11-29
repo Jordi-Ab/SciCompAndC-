@@ -4,7 +4,7 @@ files you may encounter during the coursework.
 .VecsAndMats.cpp -> functions necessary for working with vectors.
 .VecsAndMats.hpp -> Its corresponding header file.
 
-# Notes on .cpp and .hpp files:
+# Note on .cpp and .hpp files:
 
 .cpp files: contain the actual code of the functions.
 .hpp files: 

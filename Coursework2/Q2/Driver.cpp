@@ -1,11 +1,10 @@
 #include <iostream>
 #include "InputOutputUtilities.cpp"
 #include "LinearAlgebraLibrary.cpp"
-#include "matrix_allocation.cpp"
-#include "myRandom.cpp"
-#include "VecsAndMats.hpp"
+#include "VecsAndMats.cpp"/*
+Compile the .cpp files just once in the Driver*/
 
-double** _fixedA(int n_rows, int n_cols);
+/*--Prototypes for testing the code.--*/
 double** _bookExample(int n_rows, int n_cols);
 double** _andreasA(int n_rows, int n_cols);
 double** _anotherA(int n_rows, int n_cols);
@@ -50,8 +49,12 @@ int main(){
 	SolveLinearSystem(n, L, U, pi, b2);
 	PrintVector(n, b2, "x2 solution");
 
-	_testPLU();
+	//_testPLU();
 
+	freeMatrixMemory(n, A);
+	freeMatrixMemory(n, L);
+	freeMatrixMemory(n, U);
+	delete[] pi;
 	return 0;
 }
 
@@ -83,25 +86,14 @@ void _testPLU(){
     double** residual = substractMat(A, LU, size);
     PrintMatrix(size,size, residual, "(PA - LU)");
 
-}
+    freeMatrixMemory(size, A);
+	freeMatrixMemory(size, L);
+	freeMatrixMemory(size, U);
+	freeMatrixMemory(size, LU);
+	freeMatrixMemory(size, residual);
 
-double** _fixedA(int n_rows, int n_cols){
-    /*
-     * Create a fixed matrix for example.
-     */
-    setRandomSeed(235);
-    double** A = allocateMatrixMemory(n_rows, n_cols);
-    for (int i=0; i<n_rows; i++){
-        for (int j=0; j<n_cols; j++){
-            double entry = std::round(5*randomReal(-9.9, 9.9));
-            A[i][j] = entry;
-        }
-    }
-    A[0][0] = 0;
-    A[2][1] = 17;
-    A[0][2] = 19;
-    PrintMatrix(4,4, A, "a_matrix");
-    return A;
+	delete[] pi;
+
 }
 
 double** _bookExample(int n_rows, int n_cols){

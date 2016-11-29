@@ -25,6 +25,8 @@ int main(){
     PrintVector(n, a_vector, "P*v");
 
 	//testWithRandoms();
+
+	delete[] perm_mat;
     return 0;
 }
 

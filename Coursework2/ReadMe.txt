@@ -4,7 +4,18 @@ files you may encounter during the coursework.
 .VecsAndMats.cpp -> functions necessary for working with vectors.
 .VecsAndMats.hpp -> Its corresponding header file.
 
-# Notes on .cpp and .hpp files:
+.myPlotter.py -> My plotter python script. 
+	Just modified one line of the original
+	plotter.py, so the errors file is read as having one
+	column.
+
+.matrix_allocation.cpp -> Functions that allocate and free
+matrix from memory.
+
+.myRandom.cpp -> A random library for working with random
+numbers and vectors.
+
+# .cpp and .hpp files:
 
 .cpp files: contain the actual code of the functions.
 .hpp files: 
