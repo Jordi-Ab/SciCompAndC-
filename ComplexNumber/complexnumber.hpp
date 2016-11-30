@@ -42,6 +42,18 @@ public:
     */
     ComplexNumber CalculatePower(const double n) const;
 
+    /*
+    Function: getReal
+    -----------------------------------
+    */
+    double getReal() const;
+
+    /*
+    Function: getImaginary
+    -----------------------------------
+    */
+    double getImaginary() const;
+
     //OVERWRITTEN OPERATORS:
 
     /*
@@ -68,6 +80,18 @@ public:
     -----------------------------------
     */
     ComplexNumber operator+(const ComplexNumber& z) const;
+
+    /*
+    Operator: ==
+    -----------------------------------
+    */
+    bool operator==(const ComplexNumber& z) const;
+
+    /*
+    Operator: !=
+    -----------------------------------
+    */
+    bool operator!=(const ComplexNumber& z) const;
 
 private:
 

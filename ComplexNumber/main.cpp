@@ -24,4 +24,27 @@ int main(){
     b = a;
 
     std::cout << "b =" << b << std::endl;
+    b=-a;
+    std::cout << "-b =" << b << std::endl;
+
+
+    ComplexNumber first(1.1, 2.2);
+    ComplexNumber second(1.1, 2.2);
+
+    std::cout << "c =" << first << std::endl;
+    std::cout << "d =" << second << std::endl;
+
+    // Plus Operator
+    std::cout << "c + d =" << first+second << std::endl;
+
+    // Substract Operator
+    std::cout << "c - d =" << first-second << std::endl;
+
+    std::cout << "Re(c) = "<< first.getReal() << std::endl;
+    std::cout << "Im(c) = " << first.getImaginary() << std::endl;
+
+    // Comparative statements.
+    if(first == second) std::cout << "c=d" << std::endl;
+    if(first != second) std::cout << "c!=d" << std::endl;
+
 }

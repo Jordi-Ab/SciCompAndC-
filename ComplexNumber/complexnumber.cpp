@@ -15,6 +15,14 @@ ComplexNumber::ComplexNumber(const double re, const double im){
 
 //PUBLIC FUNCTIONS:
 
+double ComplexNumber::getReal() const{
+    return this->m_re;
+}
+
+double ComplexNumber::getImaginary() const{
+    return this->m_im;
+}
+
 double ComplexNumber::CalculateModulus() const{
     return sqrt(std::pow(m_re,2) + std::pow(m_im,2));
 }
@@ -67,17 +75,32 @@ ComplexNumber& ComplexNumber::operator=(const ComplexNumber& z){
     return *this;
 }
 
-ComplexNumber& ComplexNumber::operator-() const{
-    m_re = -z.m_re;
-    m_im = -z.m_im;
-    return *this;
+ComplexNumber ComplexNumber::operator-() const{
+        ComplexNumber new_c(-m_re, -m_im);
+        return new_c;
 }
 
 ComplexNumber ComplexNumber::operator+(const ComplexNumber& z) const{
-
+    ComplexNumber result;
+    result.m_re = this->m_re + z.m_re;
+    result.m_im = this->m_im + z.m_im;
+    return result;
 }
 
 ComplexNumber ComplexNumber::operator-(const ComplexNumber& z) const{
-
+    ComplexNumber result;
+    result.m_re = this->m_re - z.m_re;
+    result.m_im = this->m_im - z.m_im;
+    return result;
 }
+
+bool ComplexNumber::operator ==(const ComplexNumber& z) const{
+    return (this->m_re == z.m_re && this->m_im==z.m_im);
+}
+
+bool ComplexNumber::operator !=(const ComplexNumber& z) const{
+    return (this->m_re != z.m_re || this->m_im!=z.m_im);
+}
+
+
 
