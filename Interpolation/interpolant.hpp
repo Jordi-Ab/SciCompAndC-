@@ -5,7 +5,10 @@
 class Interpolant{
 
 public:
-    Interpolant(const double* nodes, const double* values, const int n_nodes);
+    Interpolant(const double* nodes, const double* values, const int n_nodes,
+                const bool barycentric_formula = false,
+                const bool chebyshev_interpolant=false);
+
     void Evaluate(const double* xi, int n_points, double* p) const;
 
 private:
@@ -14,6 +17,9 @@ private:
     const double* nodes;
     const double* values;
     int degree;
+    const bool barycentric_formula;
+    const bool chebyshev_interpolant;
+    const double* weights;
 
     //CONSTRUCTORS:
     Interpolant();
@@ -22,7 +28,11 @@ private:
     //FUNCTIONS:
 
     void evaluatePn(int point, double x, double* pns) const;
-    double evaluateL(int index, double x) const;
+    void evaluateLagrange(int point, double x, double* pns) const;
+    double getLj(int index, double x) const;
+    void computeWeights();
+    void computeWeightsAnalytically();
+    void computeWeightsIterativeley();
 
 };
 
