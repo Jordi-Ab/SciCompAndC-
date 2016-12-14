@@ -27,9 +27,9 @@ private:
 
     //FUNCTIONS:
 
-    void evaluatePn(int point, double x, double* pns) const;
-    void evaluateLagrange(int point, double x, double* pns) const;
-    double getLj(int index, double x) const;
+    double evaluateLagrange(const double x) const;
+    double evaluateBarycentric(const double x) const;
+    double getLj(int index, const double x) const;
     void computeWeights();
     void computeWeightsAnalytically();
     void computeWeightsIterativeley();
