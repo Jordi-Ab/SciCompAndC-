@@ -3,10 +3,10 @@
 AbstractODESolver::AbstractODESolver(){   
 
 }
-/*
-AbstractODESolver::~AbstractODESolver(){
 
-}*/
+AbstractODESolver::~AbstractODESolver(){
+    delete _initial_value;
+}
 
 void AbstractODESolver::setStepSize(double h){
     if(h < 0 || h >=1){
@@ -24,8 +24,8 @@ void AbstractODESolver::setTimeInterval(double initial_t, double final_t){
     _initial_time = initial_t;
 }
 
-void AbstractODESolver::setInitialValue(double y0){
-    _initial_value = y0;
+void AbstractODESolver::setInitialValue(const Vector& y0){
+    _initial_value = new Vector(y0);
 }
 
 double AbstractODESolver::getStepSize(){
@@ -40,12 +40,8 @@ double AbstractODESolver::getFinalTime(){
     return _final_time;
 }
 
-double AbstractODESolver::getInitialValue(){
-    return _initial_value;
-}
-
-double AbstractODESolver::rightHandSide(double y, double t){
-    return 0.0;
+Vector& AbstractODESolver::getInitialValue(){
+    return *_initial_value;
 }
 
 void AbstractODESolver::solve(){

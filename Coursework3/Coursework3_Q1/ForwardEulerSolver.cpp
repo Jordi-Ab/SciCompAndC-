@@ -1,5 +1,6 @@
 #include "ForwardEulerSolver.hpp"
 
+// Constructor for a System of Linear ODE's
 ForwardEulerSolver::ForwardEulerSolver(ODEInterface& an_ODESystem,
                                        const Vector&initial_state,
                                        const double initial_time,
@@ -14,6 +15,7 @@ ForwardEulerSolver::ForwardEulerSolver(ODEInterface& an_ODESystem,
 
 }
 
+// Constructor for a Single Linear ODE's
 ForwardEulerSolver::ForwardEulerSolver(LinearODE& an_ODE,
                                        const double initial_state,
                                        const double initial_time,

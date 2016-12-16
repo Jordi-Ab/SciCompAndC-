@@ -1,18 +1,27 @@
 #include "ForwardEulerSolver.hpp"
 
-ForwardEulerSolver::ForwardEulerSolver(double (*f)(double t, double y),
-                                       double initial_value, double final_time,
-                                       double step_size){
+ForwardEulerSolver::ForwardEulerSolver(ODEInterface& an_ODESystem,
+                                       const Vector& initial_value,
+                                       const double initial_time,
+                                       const double final_time,
+                                       const double step_size,
+                                       const std::string output_file_name,
+                                       const int save_gap,
+                                       const int print_gap){
+
+    // Set things for AbstractODE object.
     setInitialValue(initial_value);
     setStepSize(step_size);
-    setTimeInterval(0, final_time);
-    _rhs = f;
+    setTimeInterval(initial_time, final_time);
+    _ODEObject = &an_ODESystem;
+
+    // Set things for this object.
+    _output_file_name = output_file_name;
+    _save_gap = save_gap;
+    _print_gap = print_gap;
 
 }
 
-double ForwardEulerSolver::rightHandSide(double t, double y){
-    return _rhs(t,y);
-}
 
 // A solver that saves the soultion on vectors and then writes those
 // vectors to an output file.
@@ -54,16 +63,20 @@ void ForwardEulerSolver::solve(){
     double h = getStepSize();
     std::cout << "h: " << h << std::endl;
 
-    openOutputFile("fwd_euler_output.dat");
+    Vector derivs = _ODEObject->getDerivatives(); // Vector of u's
 
-    double current_y = getInitialValue();
-    double current_t = 0;
+    openOutputFile(_output_file_name);
+
+    Vector current_y = getInitialValue();
+    Vector next_y(current_y);
+    double current_t = getInitialTime();
 
     while(current_t < getFinalTime()){
-        writeData(current_t, current_y);
+        writeData(current_t, current_y[0]); // Which data you want, the one at 0?
         double next_t = current_t + h;
         std::cout << "  next_t: " << next_t << std::endl;
-        double next_y = current_y + h*rightHandSide(current_t, current_y);
+        _ODEObject->ComputeF(current_t, derivs, next_y); // Evaluate f
+        next_y = current_y + next_y*h;
         std::cout << "  next_y: " << next_y << std::endl;
 
         current_t = next_t;

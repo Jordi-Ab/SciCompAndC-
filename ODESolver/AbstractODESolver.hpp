@@ -5,24 +5,29 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include "Vector.hpp"
+#include "ODEInterface.hpp"
 class AbstractODESolver{
 
 public:
 
     AbstractODESolver();
-    //~AbstractODESolver();
+    ~AbstractODESolver();
 
+    // Setters and Getters let the instance variables be private instead of protected.
     void setStepSize(double h);
     void setTimeInterval(double initial_t, double final_t);
-    void setInitialValue(double y0);
+    void setInitialValue(const Vector& y0);
     double getStepSize();
     double getInitialTime();
     double getFinalTime();
-    double getInitialValue();
-    virtual double rightHandSide(double y, double t) = 0;
+    Vector& getInitialValue();
     virtual void solve() = 0;
 
 protected:
+
+    // Pointer to the ODEObject in consideration.
+    ODEInterface* _ODEObject;
 
     void saveSolution(const std::string file_name, const double* ts, const double* ys, int n);
     void openOutputFile(const std::string file_name);
@@ -39,7 +44,7 @@ private:
     double _h;
 
     // Variable for the Initial Value.
-    double _initial_value;
+    Vector* _initial_value;
 
     // Current working Directory for saving the output files:
     const std::string CWD = "/Users/user/Documents/Maestria/SciCompCpp/SciCompCpp_git/ODESolver/Output Data";
