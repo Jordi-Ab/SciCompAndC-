@@ -11,5 +11,4 @@ SOURCES += \
     ForwardEulerSolver.cpp \
     Driver.cpp \
     ODEInterface.cpp \
-    AbstractODESolver.cpp \
-    ForwardEulerSolver.cpp
+    AbstractODESolver.cpp

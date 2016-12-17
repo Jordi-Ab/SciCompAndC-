@@ -1,6 +1,3 @@
 #include "ODEInterface.hpp"
 
-ODEInterface::ODEInterface()
-{
-
-}
+void ODEInterface::ComputeAnalyticSolution( const double t, Vector& u ) const{}

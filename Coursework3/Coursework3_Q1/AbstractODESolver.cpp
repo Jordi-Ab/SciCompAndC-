@@ -1,9 +1,17 @@
 #include "AbstractODESolver.hpp"
-#include <stdexcept>
 
-AbstractODESolver::AbstractODESolver()
-{
+//AbstractODESolver::AbstractODESolver(){}
 
+/*AbstractODESolver::~AbstractODESolver(){
+    delete _initial_value;
+}*/
+
+void AbstractODESolver::setOutputFolder(const std::string folder_path){
+    CWD = folder_path;
+}
+
+void AbstractODESolver::useCompletePath(const bool flag){
+    _use_complete_output_file = flag;
 }
 
 void AbstractODESolver::setStepSize(double h){
@@ -13,6 +21,7 @@ void AbstractODESolver::setStepSize(double h){
     _h = h;
 }
 
+
 void AbstractODESolver::setTimeInterval(double initial_t, double final_t){
     if(final_t <= initial_t){
         throw std::runtime_error("Invalid time interval.");
@@ -21,12 +30,8 @@ void AbstractODESolver::setTimeInterval(double initial_t, double final_t){
     _initial_time = initial_t;
 }
 
-void AbstractODESolver::setInitialValue(double y0){
-    _initial_value = y0;
-}
-
-void AbstractODESolver::setRHS(double (*RHS)(double, double)){
-    // Has to do with the ODE Interface.
+void AbstractODESolver::setInitialValue(const Vector& y0){
+    _initial_value = new Vector(y0);
 }
 
 double AbstractODESolver::getStepSize(){
@@ -41,20 +46,37 @@ double AbstractODESolver::getFinalTime(){
     return _final_time;
 }
 
-double AbstractODESolver::getInitialValue(){
-    return _initial_value;
+Vector& AbstractODESolver::getInitialValue(){
+    return *_initial_value;
 }
 
-// PRIVATE METHODS.
-double* linspace(double low, double high, int n){
-    double* range = new double[n];
-    double h = (high - low)/(n-1);
-    range[0] = low;
-    for (int i=1; i<n-1; i++){
-        range[i] = range[i-1] + h;
+//void AbstractODESolver::solve(){}
+
+void AbstractODESolver::openOutputFile(const std::string file_name){
+
+    _output_file.setf(std::ios::scientific,std::ios::floatfield);
+    _output_file.precision(7);
+
+    std::string file_path;
+    if(_use_complete_output_file){
+        file_path = CWD + "/" + file_name;
+    }else{
+        file_path = file_name;
     }
-    range[n-1] = high;
-    return range;
+
+    _output_file.open(file_path);
+
+    if(!_output_file.is_open()){
+        throw std::runtime_error("Error when opening the file to write the solution.");
+    }
+
 }
 
+void AbstractODESolver::writeData(double t, double y){
+    _output_file << std::setw(15) << t
+                 << std::setw(15) << y << std::endl;
+}
 
+void AbstractODESolver::closeOutputFile(){
+    _output_file.close();
+}

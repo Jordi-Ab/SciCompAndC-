@@ -2,25 +2,23 @@
 #define LINEARODE_HPP
 
 #include "ODEInterface.hpp"
+#include <cmath>
 class LinearODE : public ODEInterface{
 
 public:
 
-    LinearODE();
+    LinearODE(double constant);
 
-    // Compute right-hand side (pure virtual)
-    void ComputeF( const double t, const Vector& u, Vector& f ) const = 0;
+    // Compute right-hand side.
+    void ComputeF( const double t, const Vector& u, Vector& f ) const;
 
-    // Compute analytical solution
+    // Compute analytical solution.
     void ComputeAnalyticSolution( const double t, Vector& u ) const;
 
 private:
 
-    // Variable for the right hand side function.
-    double (*_rhs)(double, double);
-
-    // Variable for the true solution function.
-    double (*_true_sol)(double, double);
+    // In this case the function involves a constant
+    double _my_constant;
 
 };
 

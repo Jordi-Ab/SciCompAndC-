@@ -3,9 +3,9 @@
 MyFunctor::MyFunctor(const double a){
     _my_constant = a;
 
-    // Derivatives are zero for this example.
-    _dudt = new Vector(1);
-    (*_dudt)[0] = 0;
+    // States are zero for this example.
+    _states_vector = new Vector(1);
+    (*_states_vector)[0] = 0;
 }
 
 void MyFunctor::operator() (const double t, const Vector& u, Vector& result){
@@ -13,7 +13,7 @@ void MyFunctor::operator() (const double t, const Vector& u, Vector& result){
 }
 
 Vector& MyFunctor::getDerivatives(){
-    return *_dudt;
+    return *_states_vector;
 }
 
 

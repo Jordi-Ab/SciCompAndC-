@@ -1,14 +1,20 @@
-﻿#ifndef ODEINTERFACE_HPP
-#define ODEINTERFACE_HPP
+﻿/**************************************************************
+Interface class for ODE problems of the type
 
+    du/dt = f(t,u)
+
+    where: t is a real number,
+    and u is a vector of state variables.
+
+    The function f(t,u) is provided by the user wrapped as a
+    Functor class
+
+***************************************************************/
+#ifndef ODEINTERFACE_HPP
+#define ODEINTERFACE_HPP
 
 #include "Vector.hpp"
 #include "MyFunctor.hpp"
-
-// Interface class for ODE problems of the type
-//  du/dt = f(t,u)
-//  where t is a real number
-//        u is a vector of state variables
 
 class ODEInterface{
 
@@ -47,6 +53,8 @@ private:
 
     // Function True Solution:
     void (*_true_sol) (const double, Vector& );
+
+    // States Vector
 
 };
 

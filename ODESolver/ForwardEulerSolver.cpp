@@ -22,38 +22,6 @@ ForwardEulerSolver::ForwardEulerSolver(ODEInterface& an_ODESystem,
 
 }
 
-
-// A solver that saves the soultion on vectors and then writes those
-// vectors to an output file.
-/*
-void ForwardEulerSolver::solve(){
-
-    int n = getFinalTime()/getStepSize(); // Number of steps
-    std::cout << "n: " << n << std::endl;
-    double h = getStepSize();
-    std::cout << "h: " << h << std::endl;
-
-    double* ys = new double[n];
-    double* ts = new double[n];
-
-    ys[0] = getInitialValue();
-    ts[0] = 0;
-
-    for(int i=0; i<n-1; i++){
-        double next_t = ts[i] + h;
-        std::cout << "  next_t: " << next_t << std::endl;
-        ts[i+1] = next_t;
-        double next_y = ys[i] + h*rightHandSide(ts[i], ys[i]);
-        std::cout << "  next_y: " << next_y << std::endl;
-        ys[i+1] = next_y;
-    }
-
-    saveSolution("output.dat", ts, ys, n);
-    delete[] ts;
-    delete[] ys;
-
-}*/
-
 // A solver that writes the solution on an Output file at
 // each time step (no need of arrays to store solution).
 void ForwardEulerSolver::solve(){
@@ -63,24 +31,30 @@ void ForwardEulerSolver::solve(){
     double h = getStepSize();
     std::cout << "h: " << h << std::endl;
 
-    Vector derivs = _ODEObject->getDerivatives(); // Vector of u's
+    //Vector derivs = _ODEObject->getDerivatives(); // Vector of u's
 
     openOutputFile(_output_file_name);
 
-    Vector current_y = getInitialValue();
-    Vector next_y(current_y);
+    Vector current_state = getInitialValue();
+    Vector next_state(current_state);
     double current_t = getInitialTime();
 
     while(current_t < getFinalTime()){
-        writeData(current_t, current_y[0]); // Which data you want, the one at 0?
+
+        writeData(current_t, current_state[0]); // Which data you want, the one at 0?
         double next_t = current_t + h;
         std::cout << "  next_t: " << next_t << std::endl;
-        _ODEObject->ComputeF(current_t, derivs, next_y); // Evaluate f
-        next_y = current_y + next_y*h;
-        std::cout << "  next_y: " << next_y << std::endl;
 
-        current_t = next_t;
-        current_y = next_y;
+        // Evaluate right hand side function at current time, current state,
+        // store the result in next state.
+        _ODEObject->ComputeF(current_t, current_state, next_state);
+
+        next_state = current_state + next_state*h; // Fwd Euler formula.
+        std::cout << "  next_y: " << next_state << std::endl;
+
+        current_t = next_t; // Take one step in time.
+        current_state = next_state; // Take one step in the state.
+
     }
 
     closeOutputFile();
