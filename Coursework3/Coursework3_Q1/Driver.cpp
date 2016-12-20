@@ -34,5 +34,34 @@ int main(){
     //Solve the IVP by a simple call to solve()
     method.solve();
 
+    // Part2:
+
+    // set T = 2
+    method.setTimeInterval(0, 2);
+
+    // Open a file to write the errors.
+    method.openOutputFile("fwd_euler_errors.dat");
+    h = 1;
+
+    std::cout << "" << std::endl;
+    std::cout << "Printing the errors." << std::endl;
+
+    for (int i=0; h>.001; i++){
+        h /= 2; // Halve the step size.
+        method.setStepSize(h/2); // Change the step size in the method.
+        double error = method.computeError();
+        method.writeData(h, error);
+
+        std::cout << "For h = " << h << ", error = " << error << std::endl;
+
+    }
+
+    method.closeOutputFile();
+
+    std::cout << "" << std::endl;
+    std::cout << "Note how every time I halve the interval, the error is roughly halved." << std::endl;
+    std::cout << "This provides evidence of an O(h) convergence." << std::endl;
+    std::cout << "" << std::endl;
+
     return 0;
 }

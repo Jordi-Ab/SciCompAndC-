@@ -17,6 +17,7 @@ public:
                        const int save_gap = 1,
                        const int print_gap = 1);
     void solve();
+    double computeError();
 
 private:
 

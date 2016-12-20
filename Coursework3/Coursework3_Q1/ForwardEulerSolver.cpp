@@ -17,8 +17,14 @@ ForwardEulerSolver::ForwardEulerSolver(ODEInterface& an_ODESystem,
 
     // Set things for this object.
     _output_file_name = output_file_name;
-    _save_gap = save_gap;
-    _print_gap = print_gap;
+
+    if (save_gap <= 0) _save_gap = 1;
+    else if (save_gap >= final_time/step_size) _save_gap = final_time;
+    else _save_gap = save_gap;
+
+    if (print_gap <= 0) _print_gap = 1;
+    else if (print_gap >= final_time/step_size) _print_gap = final_time;
+    else _print_gap = print_gap;
 
 }
 
@@ -26,14 +32,11 @@ ForwardEulerSolver::ForwardEulerSolver(ODEInterface& an_ODESystem,
 // each time step (no need of arrays to store solution).
 void ForwardEulerSolver::solve(){
 
-    int n = getFinalTime()/getStepSize(); // Number of steps
-    std::cout << "n: " << n << std::endl;
+    printHeader("Forward Euler");
     double h = getStepSize();
-    std::cout << "h: " << h << std::endl;
-
-    //Vector derivs = _ODEObject->getDerivatives(); // Vector of u's
 
     openOutputFile(_output_file_name);
+    int iteration = 1;
 
     Vector current_state = getInitialValue();
     Vector next_state(current_state);
@@ -41,25 +44,82 @@ void ForwardEulerSolver::solve(){
 
     while(current_t < getFinalTime()){
 
-        writeData(current_t, current_state[0]); // Which data you want, the one at 0?
-        double next_t = current_t + h;
-        std::cout << "  next_t: " << next_t << std::endl;
+        if( (iteration % _save_gap) == 0){
+            writeData(current_t, current_state);
+        }
 
-        // Evaluate right hand side function at current time, current state,
+        if( (iteration % _print_gap) == 0){
+            printData(current_t, current_state);
+        }
+
+        double next_t = current_t + h;
+
+        // Evaluate right hand side function at the
+        // current time and current state,
         // store the result in next state.
         _ODEObject->ComputeF(current_t, current_state, next_state);
 
         next_state = current_state + next_state*h; // Fwd Euler formula.
-        std::cout << "  next_y: " << next_state << std::endl;
 
         current_t = next_t; // Take one step in time.
         current_state = next_state; // Take one step in the state.
+
+        iteration++;
 
     }
 
     closeOutputFile();
 
 }
+
+double ForwardEulerSolver::computeError(){
+
+    double h = getStepSize();
+
+    Vector current_state = getInitialValue();
+    Vector next_state(current_state);
+
+    double n_components = current_state.GetSize();
+    Vector true_sol(n_components);
+    double max_norm = 0;
+
+    double current_t = getInitialTime();
+
+    while(current_t < getFinalTime()){
+
+        double next_t = current_t + h;
+
+        // Evaluate right hand side function at the
+        // current time and current state,
+        // store the result in next state.
+        _ODEObject->ComputeF(current_t, current_state, next_state);
+
+        // Evaluate true solution function at the
+        // next time step and store the result in true_sol vector.
+        _ODEObject->ComputeAnalyticSolution(next_t, true_sol);
+
+        next_state = current_state + next_state*h; // Fwd Euler formula.
+
+        Vector difference = next_state - true_sol;
+
+        // Euclidian Norm
+        double norm = difference.CalculateNorm(2);
+
+        if (norm > max_norm) max_norm = norm;
+
+        current_t = next_t; // Take one step in time.
+        current_state = next_state; // Take one step in the state.
+
+    }
+
+    //delete[] current_state;
+    //delete[] next_state;
+    //delete[] true_sol;
+    //delete[] difference;
+
+    return max_norm;
+}
+
 
 
 
