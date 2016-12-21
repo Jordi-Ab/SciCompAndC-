@@ -10,12 +10,13 @@ ForwardEulerSolver::ForwardEulerSolver(ODEInterface& an_ODESystem,
                                        const int print_gap){
 
     // Set things for AbstractODE object.
-    setInitialValue(initial_value);
+
     setStepSize(step_size);
     setTimeInterval(initial_time, final_time);
     _ODEObject = &an_ODESystem;
 
     // Set things for this object.
+    _initial_state = new Vector(initial_value);
     _output_file_name = output_file_name;
 
     if (save_gap <= 0) _save_gap = 1;
@@ -28,6 +29,10 @@ ForwardEulerSolver::ForwardEulerSolver(ODEInterface& an_ODESystem,
 
 }
 
+ForwardEulerSolver::~ForwardEulerSolver(){
+    delete _initial_state;
+}
+
 // A solver that writes the solution on an Output file at
 // each time step (no need of arrays to store solution).
 void ForwardEulerSolver::solve(){
@@ -38,7 +43,7 @@ void ForwardEulerSolver::solve(){
     openOutputFile(_output_file_name);
     int iteration = 1;
 
-    Vector current_state = getInitialValue();
+    Vector current_state = *_initial_state;
     Vector next_state(current_state);
     double current_t = getInitialTime();
 
@@ -76,7 +81,7 @@ double ForwardEulerSolver::computeError(){
 
     double h = getStepSize();
 
-    Vector current_state = getInitialValue();
+    Vector current_state = *_initial_state;
     Vector next_state(current_state);
 
     double n_components = current_state.GetSize();

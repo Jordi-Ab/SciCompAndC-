@@ -29,9 +29,6 @@ void AbstractODESolver::setTimeInterval(double initial_t, double final_t){
     _initial_time = initial_t;
 }
 
-void AbstractODESolver::setInitialValue(const Vector& y0){
-    _initial_value = new Vector(y0);
-}
 
 double AbstractODESolver::getStepSize(){
     return _h;
@@ -43,10 +40,6 @@ double AbstractODESolver::getInitialTime(){
 
 double AbstractODESolver::getFinalTime(){
     return _final_time;
-}
-
-Vector& AbstractODESolver::getInitialValue(){
-    return *_initial_value;
 }
 
 void AbstractODESolver::openOutputFile(const std::string file_name){
@@ -77,10 +70,10 @@ void AbstractODESolver::printHeader(const std::string class_name){
     std::cout << "  Step Size: " << getStepSize() << std::endl;
     std::cout << "  Number of Steps: " << getFinalTime()/getStepSize() << std::endl;
 
-    if (getInitialValue().GetSize() > 3){
+    /*if (getInitialValue().GetSize() > 3){
         std::cout << "# Note: Will just print the first 3 components of the ";
         std::cout << "solutions vector on screen." << std::endl;
-    }
+    }*/
     std::cout << "" << std::endl;
 }
 
