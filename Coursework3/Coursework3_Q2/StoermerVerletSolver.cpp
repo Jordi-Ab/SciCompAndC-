@@ -86,4 +86,47 @@ void StoermerVerletSolver::solve(){
 
 double StoermerVerletSolver::computeError(){
 
+    double h = getStepSize();
+
+    Vector current_state = *_initial_state;
+    Vector next_state(current_state);
+    Vector current_vel = *_initial_velocity;
+    Vector next_vel(current_vel);
+
+    int n_components = current_state.GetSize();
+    Vector true_sol(n_components);
+    double max_norm = 0;
+
+    double current_t = getInitialTime();
+
+    while(current_t < getFinalTime()){
+
+        double next_t = current_t + h;
+
+        // Evaluate right hand side function at the
+        // current time and current state,
+        // store the result in next state.
+        _ODEObject->ComputeF(next_t, current_state, next_state);
+
+        // Evaluate true solution function at the
+        // next time step and store the result in true_sol vector.
+        _ODEObject->ComputeAnalyticSolution(next_t, true_sol);
+
+        next_vel = current_vel + next_state*h;
+        next_state = current_state + next_vel*h;
+
+        Vector difference = next_state - true_sol;
+
+        // Euclidian Norm
+        double norm = difference.CalculateNorm(2);
+
+        if (norm > max_norm) max_norm = norm;
+
+        current_t = next_t; // Take one step in time.
+        current_state = next_state; // Take one step in the state.
+        current_vel = next_vel;
+
+    }
+
+    return max_norm;
 }

@@ -36,5 +36,35 @@ int main(){
     //Solve the IVP by a simple call to solve()
     method.solve();
 
+    // Part2:
+
+    // set T = 1000
+    method.setTimeInterval(0, 1000);
+
+    // Open a file to write the errors.
+    method.openOutputFile("StormVerlet_errors.dat");
+    h = 1;
+
+    std::cout << "" << std::endl;
+    std::cout << "Printing the errors." << std::endl;
+
+    double last_error = 0;
+    for (int i=0; h>.001; i++){
+
+        h /= 2; // Halve the step size.
+        method.setStepSize(h/2); // Change the step size in the method.
+        double error = method.computeError();
+
+        if (i>0){
+            std::cout << "For h = " << h << ", error = " << error << std::endl;
+            method.writeData(h, error);
+            std::cout << "  => Error was reduced by a factor of: "<< last_error/error << std::endl;
+        }
+        last_error = error;
+
+
+    }
+    
+
     return 0;
 }

@@ -1,11 +1,18 @@
 #include "AbstractODESolver.hpp"
 
-AbstractODESolver::AbstractODESolver(){   
+//AbstractODESolver::AbstractODESolver(){}
 
+AbstractODESolver::~AbstractODESolver() {
+    delete _initial_state;
+    if (_output_file.is_open()) _output_file.close();
 }
 
-AbstractODESolver::~AbstractODESolver(){
-    delete _initial_value;
+void AbstractODESolver::setOutputFolder(const std::string folder_path){
+    CWD = folder_path;
+}
+
+void AbstractODESolver::useCompletePath(const bool flag){
+    _use_complete_output_file = flag;
 }
 
 void AbstractODESolver::setStepSize(double h){
@@ -15,7 +22,6 @@ void AbstractODESolver::setStepSize(double h){
     _h = h;
 }
 
-
 void AbstractODESolver::setTimeInterval(double initial_t, double final_t){
     if(final_t <= initial_t){
         throw std::runtime_error("Invalid time interval.");
@@ -24,8 +30,13 @@ void AbstractODESolver::setTimeInterval(double initial_t, double final_t){
     _initial_time = initial_t;
 }
 
-void AbstractODESolver::setInitialValue(const Vector& y0){
-    _initial_value = new Vector(y0);
+void AbstractODESolver::setInitialState(const Vector &initial_state){
+    _initial_state = new Vector(initial_state);
+}
+
+Vector AbstractODESolver::getInitialState(){
+    Vector to_give(*_initial_state);
+    return to_give; // return a copy, instead of the instance vector.
 }
 
 double AbstractODESolver::getStepSize(){
@@ -40,41 +51,79 @@ double AbstractODESolver::getFinalTime(){
     return _final_time;
 }
 
-Vector& AbstractODESolver::getInitialValue(){
-    return *_initial_value;
-}
-
 void AbstractODESolver::solve(){
 
+    printHeader(); // Each stepper overwrites its own header.
+
+    double h = getStepSize();
+
+    openOutputFile(_output_file_name);
+    int iteration = 1;
+
+    Vector current_state = *_initial_state;
+    Vector next_state(current_state);
+    double current_t = getInitialTime();
+
+    while(current_t < getFinalTime()){
+
+        if( (iteration % _save_gap) == 0){
+            writeData(current_t, current_state);
+        }
+
+        if( (iteration % _print_gap) == 0){
+            printData(current_t, current_state);
+        }
+
+        double next_t = current_t + h;
+
+        // Each stepper overwites its own advance method.
+        advance(current_t, current_state, next_state);
+
+        current_t = next_t; // Take one step in time.
+        current_state = next_state; // Take one step in the state.
+
+        iteration++;
+
+    }
+
+    closeOutputFile();
 }
 
-void AbstractODESolver::saveSolution(const std::string file_name, const double* ts, const double* ys, int n){
+double AbstractODESolver::computeError(){
 
-    // Setting strem file precision
-    std::ofstream output_file;
-    output_file.setf(std::ios::scientific,std::ios::floatfield);
-    output_file.precision(7);
+    double h = getStepSize();
 
-    // Opening file
-    std::string file_path;
-    if(use_complete_output_file){
-        file_path = CWD + "/" + file_name;
-    }else{
-        file_path = file_name;
+    Vector current_state = *_initial_state;
+    Vector next_state(current_state);
+    double current_t = getInitialTime();
+
+    double n_components = current_state.GetSize();
+    Vector true_sol(n_components);
+    double max_norm = 0;
+
+    while(current_t < getFinalTime()){
+
+        double next_t = current_t + h;
+
+        // Evaluate true solution function at the
+        // next time step and store the result in true_sol vector.
+        _ODEObject->ComputeAnalyticSolution(next_t, true_sol);
+
+        // Each stepper overwites its own advance method.
+        advance(current_t, current_state, next_state);
+
+        Vector difference = next_state - true_sol;
+
+        // Euclidian Norm
+        double norm = difference.CalculateNorm(2);
+
+        if (norm > max_norm) max_norm = norm;
+
+        current_t = next_t; // Take one step in time.
+        current_state = next_state; // Take one step in the state.
+
     }
-    output_file.open(file_path);
-    if(!output_file.is_open()){
-        throw std::runtime_error("Error when opening the file to write the solution.");
-    }
-
-    // Write data
-    for (int i=0; i<n; i++){
-    output_file << std::setw(15) << ts[i]
-                << std::setw(15) << ys[i] << std::endl;
-    }
-
-    output_file.close();
-
+    return max_norm;
 }
 
 void AbstractODESolver::openOutputFile(const std::string file_name){
@@ -83,7 +132,7 @@ void AbstractODESolver::openOutputFile(const std::string file_name){
     _output_file.precision(7);
 
     std::string file_path;
-    if(use_complete_output_file){
+    if(_use_complete_output_file){
         file_path = CWD + "/" + file_name;
     }else{
         file_path = file_name;
@@ -94,14 +143,33 @@ void AbstractODESolver::openOutputFile(const std::string file_name){
     if(!_output_file.is_open()){
         throw std::runtime_error("Error when opening the file to write the solution.");
     }
-
 }
 
-void AbstractODESolver::writeData(double t, double y){
-    _output_file << std::setw(15) << t
-                 << std::setw(15) << y << std::endl;
+void AbstractODESolver::writeData(const double t, const Vector& us){
+    _output_file << std::setw(15) << t;
+    for (int i=0; i<us.GetSize(); i++){
+        _output_file << std::setw(15) << us.Read(i) << std::endl;
+    }
+}
+
+void AbstractODESolver::writeData(const double h, double e){
+    _output_file << std::setw(15) << h;
+    _output_file << std::setw(15) << e << std::endl;
+}
+
+void AbstractODESolver::printData(const double t, const Vector& us){
+    std::cout << "For time= " << t;
+    int components_to_print = std::min(3, us.GetSize());
+    for(int i=0; i<components_to_print; i++){
+        std::cout << ", u[" << i << "]= " << us.Read(i) << std::endl;
+    }
 }
 
 void AbstractODESolver::closeOutputFile(){
     _output_file.close();
 }
+
+
+
+
+

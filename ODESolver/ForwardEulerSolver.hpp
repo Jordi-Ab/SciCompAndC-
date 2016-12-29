@@ -2,7 +2,6 @@
 #define FORWARDEULERSOLVER_HPP
 
 #include "AbstractODESolver.hpp"
-#include "ODEInterface.hpp"
 #include <string>
 #include <iostream>
 class ForwardEulerSolver : public AbstractODESolver{
@@ -17,13 +16,20 @@ public:
                        const std::string output_file_name = "output.dat",
                        const int save_gap = 1,
                        const int print_gap = 1);
-    void solve();
+
+
+    /*Its own print header method*/
+    void printHeader();
+
+    /*Implements Forward Euler Formula to advance one step.
+    The result of the step taken will get stored in the given "result vector"*/
+    void advance(const double current_t, const Vector& current_state, Vector& result);
+
 
 private:
 
-    std::string _output_file_name;
-    int _save_gap;
-    int _print_gap;
+    ForwardEulerSolver();
+
 };
 
 #endif // FORWARDEULERSOLVER_HPP

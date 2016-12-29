@@ -5,34 +5,54 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
-#include "Vector.hpp"
 #include "ODEInterface.hpp"
 class AbstractODESolver{
 
 public:
 
-    AbstractODESolver();
+    // Destructor
     ~AbstractODESolver();
 
-    // Setters and Getters let the instance variables be private instead of protected.
+    /* Setters and Getters let the instance variables be private instead of protected.
+     * I prefer it this way because then you can change subtlties of the problem from
+     * the Driver file without the need of instantiating a new problem.*/
     void setStepSize(double h);
     void setTimeInterval(double initial_t, double final_t);
-    void setInitialValue(const Vector& y0);
+    void setInitialState(const Vector& initial_state);
     double getStepSize();
     double getInitialTime();
     double getFinalTime();
-    Vector& getInitialValue();
-    virtual void solve() = 0;
+    Vector getInitialState();
+
+    /*
+     * Note about Solve:
+     * In the Question sheet, we are asked to declare it as pure virtual.
+     * I prefered leaving solve inside this class, and instead
+     * make "advance" a pure virtual method, which is what changes between
+     * different steppers for IVP's
+     */
+    void solve();
+    double computeError();
+
+    void setOutputFolder(const std::string folder_path);
+    void useCompletePath(const bool flag);
+    void openOutputFile(const std::string file_name);
+    void closeOutputFile();
+    void writeData(const double t, const Vector& us);
+    void writeData(const double h, double e);
 
 protected:
 
-    // Pointer to the ODEObject in consideration.
+    // Pointer to the ODE Object in consideration.
     ODEInterface* _ODEObject;
 
-    void saveSolution(const std::string file_name, const double* ts, const double* ys, int n);
-    void openOutputFile(const std::string file_name);
-    void writeData(double t, double y);
-    void closeOutputFile();
+    std::string _output_file_name;
+    int _save_gap;
+    int _print_gap;
+
+    // These are the virtual methods that will get overriden on each different stepper.
+    virtual void printHeader() = 0;
+    virtual void advance(const double current_t, const Vector& current_state, Vector& result) = 0;
 
 private:
 
@@ -43,17 +63,27 @@ private:
     // Variable for the Step Size
     double _h;
 
-    // Variable for the Initial Value.
-    Vector* _initial_value;
 
-    // Current working Directory for saving the output files:
-    const std::string CWD = "/Users/user/Documents/Maestria/SciCompCpp/SciCompCpp_git/ODESolver/Output Data";
-
-    // The above path works only in my computer, so when running on another computer this should be set to false.
-    bool use_complete_output_file = true;
+    /* Variable for Initial State
+     *  All IVP's have an initial state, so this variable can lay
+     *  on the AbstractODE Solver.*/
+    Vector* _initial_state;
 
     // An OutputStream variable to write the soultion on a file.
     std::ofstream _output_file;
+
+    // Current working Directory for saving the output files:
+    // Set to the home directory by default
+    std::string CWD = "/Users/user/";
+
+    // The above path works only in my computer,
+    // so when running on another computer this should be set to false.
+    bool _use_complete_output_file = false; // false by default
+
+    void printData(const double t, const Vector& us);
+
+    // Default Constructor.
+    //AbstractODESolver();
 
 };
 

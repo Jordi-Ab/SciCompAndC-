@@ -13,7 +13,7 @@ private:
   double* mData;
 
   // Size of vector
-  int mSize; 
+  int mSize;
 
 public:
 
