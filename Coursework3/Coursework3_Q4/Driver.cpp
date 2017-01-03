@@ -21,8 +21,8 @@ void setInitialVelocity(Vector& v0, Vector* x_grid, Vector* y_grid);
 int main(){
 
     /* Initialize all the necessary info for the problem: */
-    const int Nx = 3; // Number of mesh points in the x_axis.
-    const int Ny = 3; // Number of mesh points in the y_axis.
+    const int Nx = 40; // Number of mesh points in the x_axis.
+    const int Ny = 40; // Number of mesh points in the y_axis.
     const int c = 1; // Wave speed constant
     double t0 = 0; //   Initial Time.
     double T = 1; // Final Time
@@ -34,15 +34,18 @@ int main(){
     ChebyshevGrid1D* y_grid = new ChebyshevGrid1D(Ny);
 
     /* Set Initial Conditions */
-    Vector u0( (Nx+1)*(Ny+1) );
-    Vector v0( (Nx+1)*(Ny+1) );
+    Vector u0( (Nx-1)*(Ny-1) );
+    Vector v0( (Nx-1)*(Ny-1) );
 
-    // Set initial state according to the initial value
-    // function given in the Coursework.*/
+    // Set Initial State for Interior Grid points.
+    // # according to the initial value function given in the Coursework.
+    // Note, I exclude the end points because of the Boundary Conditions.
     setInitialState(u0, x_grid, y_grid);
     // Initial Velocity is a vector of zeros.
     setInitialVelocity(v0, x_grid, y_grid);
 
+    std::cout << u0 << std::endl;
+    std::cout << v0 << std::endl;
     // A folder to store the Output data (Works only in my computer), so
     // if running from another computer make sure the flag "use_complete_path"
     // is set to false.
@@ -56,7 +59,7 @@ int main(){
 
     /* Instantiate the method to be used, in this case Stoermer-Verlet,
     and provide all the necessary information for the steps.*/
-    StoermerVerletSolver method(Q4_rhs, u0, v0, t0, T, h, output_file_name, 1, 1);
+    StoermerVerletSolver method(Q4_rhs, u0, v0, t0, T, h, output_file_name, 50, 50);
 
     method.setOutputFolder(path_data_folder);
     method.useCompletePath(use_complete_path);
@@ -69,14 +72,14 @@ int main(){
 
 void setInitialState(Vector& u0, Vector* x_grid, Vector* y_grid){
     int u0_ix = 0; // Index of u0.
-    // Iterate through values in the x_grid.
-    for(int i_x=0; i_x<x_grid->GetSize(); i_x++){
-        // First iterate through all the y values to arrange
-        // the vector in the Lexicographical ordering.
-        for(int i_y=0; i_y<y_grid->GetSize(); i_y++){
+    // Iterate through interior values of the x_grid.
+    for(int i_x=1; i_x<x_grid->GetSize()-1; i_x++){
+        // Iterate through interior values of y_grid to
+        // arrange the vector in Lexicographical ordering.
+        for(int i_y=1; i_y<y_grid->GetSize()-1; i_y++){
             double x = (*x_grid)[i_x]; // x Node
             double y = (*y_grid)[i_y]; // y Node
-            // Evaluate the initial condition function at the nodes.
+            // Evaluate the initial condition function at the nodes,
             // and store the result in "u0".
             u0[u0_ix] = exp( -40*pow( (x-0.4),2.0 ) - 40.0*(y*y) );
             u0_ix++;
@@ -87,10 +90,10 @@ void setInitialState(Vector& u0, Vector* x_grid, Vector* y_grid){
 void setInitialVelocity(Vector& v0, Vector* x_grid, Vector* y_grid){
     int v0_ix = 0; // Index of v0.
     // Iterate through values in the x_grid.
-    for(int i_x=0; i_x<x_grid->GetSize(); i_x++){
+    for(int i_x=1; i_x<x_grid->GetSize()-1; i_x++){
         // First iterate through all the y values to arrange
         // the vector in the Lexicographical ordering.
-        for(int i_y=0; i_y<y_grid->GetSize(); i_y++){
+        for(int i_y=1; i_y<y_grid->GetSize()-1; i_y++){
             // Fill v0 with zeros.
             v0[v0_ix] = 0;
         }

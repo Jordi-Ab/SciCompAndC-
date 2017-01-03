@@ -43,7 +43,7 @@ void StoermerVerletSolver::solve(){
     double h = getStepSize();
 
     openOutputFile(_output_file_name);
-    int iteration = 1;
+    int iteration = 0;
 
     Vector current_state = *_initial_state;
     Vector next_state(current_state);

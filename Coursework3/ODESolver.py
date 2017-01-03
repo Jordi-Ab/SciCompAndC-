@@ -115,6 +115,7 @@ class RungeKutta4(ODESolver):
 		next_y = ys[k] + (1/6)*(k1 + 2*k2 + 2*k3 + k4)
 		return next_y
 
+
 class StormVerlet(ODESolver):
 	"""
 	Class for solving an scalar, or a system of 
@@ -123,36 +124,36 @@ class StormVerlet(ODESolver):
 	d^2y/dt^2 = f(t, y) by the Stoermer-Verlet method.
 
 	Receives:
-		. f -> callable object (function) implementing f(t, y)
+	. f -> callable object (function) implementing f(t, y)
 	"""
-
 	def setInitialVelocity(self, v0):
-	"""
-	Receives v0 -> initial velocity,
-	such that y'(t0) = v0.
+		"""
+		Receives v0 -> initial velocity,
+		such that y'(t0) = v0.
 
-	*Note: t0 is defined as the first entry in the time_points array
-	when calling the solve method.
-	"""
-	if isinstance(v0, (float, int)):	# Scalar ODE
-		if( not self._dim == 1):
-			raise ValueError("Different dimensions for initial state and initial velocity.")
-		else:
-			initial_velocity = float(v0)
-	else:								# System of ODEs
-		initial_velocity = np.asarray(v0)
-		if( not self._dim == initial_velocity.size):
-			raise ValueError("Different dimensions for initial state and initial velocity.")
-	self._velocity = initial_velocity
+		*Note: t0 is defined as the first entry in the time_points array
+		when calling the solve method.
+		"""
+		if isinstance(v0, (float, int)):	# Scalar ODE
+			if( not self._dim == 1):
+				raise ValueError("Different dimensions for initial state and initial velocity.")
+			else:
+				initial_velocity = float(v0)
+		else:								# System of ODEs
+			initial_velocity = np.asarray(v0)
+			if( not self._dim == initial_velocity.size):
+				raise ValueError("Different dimensions for initial state and initial velocity.")
+		self._velocity = initial_velocity
+
 
 	def _advance(self):
 		ts, ys, f, k = self._ts, self._ys, self._f, self._k
 		h = ts[k+1] - ts[k]
-		
+
 		current_vel = self._velocity
 		next_vel = current_vel + h*f(ts[k], ys[k])
 		next_y = ys[k] + h*next_vel
 
-		self._v = next_vel
+		self._velocity = next_vel
 		return next_y
-		
+

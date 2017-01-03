@@ -24,14 +24,14 @@ WaveProblem::~WaveProblem(){
 void WaveProblem::ComputeF( const double t, const Vector& u, Vector& f )const{
 
     // Get the values of u that are not at boundary nodes.
-    Vector interior_u = getInteriorValues(u);
+    //Vector interior_u = getInteriorValues(u);
 
     // Compute F using the interior values, and interior Laplacian Matrix
-    Vector interior_sol = ( (*_L)*interior_u )*( _speed*_speed );
+    f = ( (*_L)*u )*( _speed*_speed );
 
     // Apply Boundary Conditions to get the complete result.
     // i.e. Zero-out nodes at boundaries
-    applyBoundaryConditions(interior_sol, f);
+    //applyBoundaryConditions(interior_sol, f);
 }
 
 Vector WaveProblem::getInteriorValues(const Vector u) const{
@@ -77,7 +77,7 @@ void WaveProblem::applyBoundaryConditions(const Vector interior_u, Vector& f) co
     for (int x_ix=0; x_ix<Nx; x_ix++){
         for (int y_ix=0; y_ix<Ny; y_ix++){
             int exterior_index = (x_ix*Ny) + y_ix;
-            // Test of Node is at Boundary
+            // Test if Node is at Boundary
             if( (x_ix == 0 || x_ix == Nx-1) || (y_ix == 0 || y_ix == Ny-1) ){
                 // Node is at Boundary.
                 f[exterior_index] = 0; // Apply Boundary Condition.
@@ -114,8 +114,8 @@ void WaveProblem::initInteriorLaplacian(){
     Matrix Iy = cheby.eye(cols); // Identity Matrix
 
     // Discrete Laplacian is calculated with Kronecker products.
-
-    _L = new Matrix( pow(rows,2), pow(rows,2) );
+    _L = new Matrix( pow(rows,2), pow(cols,2) );
     *_L = interior_Dx2.KroneckerProduct(Iy) + Ix.KroneckerProduct(interior_Dy2);
+
 }
 
