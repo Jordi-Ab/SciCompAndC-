@@ -59,28 +59,6 @@ public:
   /*    Written by Giordi Azonos    */
   Matrix KroneckerProduct( const Matrix& m1) const;
 
-  /*
-   * Function: getColumn();
-   * Usage: a_matrix.getColumn(index);
-   *       Added by Giordi Azonos
-   * -----------------------------
-   * Returns the column at the given index
-   * of this matrix as a new Vector object.
-   * Uses 1-based indexing.
-   */
-  Vector GetColumn(int index) const;
-
-  /*
-   * Function: getRow();
-   * Usage: a_matrix.getRow(index);
-   *       Added by Giordi Azonos
-   * -----------------------------
-   * Returns the row at the given index
-   * of this matrix as a new Vector object.
-   * Uses 1-based indexing.
-   */
-  Vector GetRow(int index) const;
-
   // Determinant
   double CalculateDeterminant() const;
 

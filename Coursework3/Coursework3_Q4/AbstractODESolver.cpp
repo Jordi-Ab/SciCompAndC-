@@ -1,17 +1,8 @@
 #include "AbstractODESolver.hpp"
 
-//AbstractODESolver::AbstractODESolver(){}
-
-/*AbstractODESolver::~AbstractODESolver(){
-    delete _initial_value;
-}*/
-
-void AbstractODESolver::setOutputFolder(const std::string folder_path){
-    CWD = folder_path;
-}
-
-void AbstractODESolver::useCompletePath(const bool flag){
-    _use_complete_output_file = flag;
+void AbstractODESolver::setOutputFolderPath(const std::string folder_path){
+    _output_folder_path = folder_path;
+    _use_complete_output_file = true;
 }
 
 void AbstractODESolver::setStepSize(double h){
@@ -28,6 +19,7 @@ void AbstractODESolver::setTimeInterval(double initial_t, double final_t){
     _final_time = final_t;
     _initial_time = initial_t;
 }
+
 
 double AbstractODESolver::getStepSize(){
     return _h;
@@ -46,12 +38,14 @@ void AbstractODESolver::openOutputFile(const std::string file_name){
     _output_file.setf(std::ios::scientific,std::ios::floatfield);
     _output_file.precision(7);
 
-    std::string file_path;
+    std::string file_path = file_name;
     if(_use_complete_output_file){
-        file_path = CWD + "/" + file_name;
-    }else{
-        file_path = file_name;
+        file_path = _output_folder_path + "/" + file_path;
     }
+    std::cout << "" << std::endl;
+    std::cout << "Saving file on folder: ";
+    std::cout << file_path << std::endl;
+    std::cout << "" << std::endl;
 
     _output_file.open(file_path);
 
@@ -68,19 +62,13 @@ void AbstractODESolver::printHeader(const std::string class_name){
     std::cout << "  Final Time: " << getFinalTime() << std::endl;
     std::cout << "  Step Size: " << getStepSize() << std::endl;
     std::cout << "  Number of Steps: " << getFinalTime()/getStepSize() << std::endl;
-
-    /*if (getInitialValue().GetSize() > 3){
-        std::cout << "# Note: Will just print the first 3 components of the ";
-        std::cout << "solutions vector on screen." << std::endl;
-    }*/
-    std::cout << "" << std::endl;
 }
 
 void AbstractODESolver::writeData(const double t, const Vector& us){
     _output_file << std::setw(15) << t;
-    for (int i=0; i<us.GetSize(); i++){
-        _output_file << std::setw(15) << us.Read(i);
-    }
+       for (int i=0; i<us.GetSize(); i++){
+           _output_file << std::setw(15) << us.Read(i);
+       }
     _output_file << "\n"; // End of Line.
 }
 
@@ -90,6 +78,10 @@ void AbstractODESolver::writeData(const double h, double e){
 }
 
 void AbstractODESolver::printData(const double t, const Vector& us){
+    if (us.GetSize() > 3){
+        std::cout << "# Note: Printing only the first 3 ";
+        std::cout << "components of the solution vector." << std::endl;
+    }
     std::cout << "For time= " << t;
     int components_to_print = std::min(3, us.GetSize());
     for(int i=0; i<components_to_print; i++){

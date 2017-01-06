@@ -52,7 +52,7 @@ void StoermerVerletSolver::solve(){
 
     double current_t = getInitialTime();
 
-    while(current_t < getFinalTime()){
+    while(current_t <= getFinalTime()){
 
         if( (iteration % _save_gap) == 0){
             writeData(current_t, current_state);
@@ -79,6 +79,10 @@ void StoermerVerletSolver::solve(){
         iteration++;
 
     }
+
+    // Save and Write data for the last iteration.
+    writeData(current_t, current_state);
+    printData(current_t, current_state);
 
     closeOutputFile();
 

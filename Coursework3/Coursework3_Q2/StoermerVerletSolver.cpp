@@ -19,15 +19,17 @@ StoermerVerletSolver::StoermerVerletSolver( ODEInterface& an_ODESystem,
     _initial_state = new Vector(initial_state);
     _initial_velocity = new Vector(initial_velocity);
 
+    // Assert min save gap is 1, and max save gap is equal to the number
+    // steps that will be taken.
     if (save_gap <= 0) _save_gap = 1;
     else if (save_gap >= final_time/step_size) _save_gap = final_time;
     else _save_gap = save_gap;
 
+    // Assert min print gap is 1, and max print gap is equal to the number
+    // steps that will be taken.
     if (print_gap <= 0) _print_gap = 1;
     else if (print_gap >= final_time/step_size) _print_gap = final_time;
     else _print_gap = print_gap;
-
-
 }
 
 StoermerVerletSolver::~StoermerVerletSolver(){
@@ -43,7 +45,7 @@ void StoermerVerletSolver::solve(){
     double h = getStepSize();
 
     openOutputFile(_output_file_name);
-    int iteration = 1;
+    int iteration = 0;
 
     Vector current_state = *_initial_state;
     Vector next_state(current_state);
@@ -69,19 +71,17 @@ void StoermerVerletSolver::solve(){
         // store the result in next state.
         _ODEObject->ComputeF(current_t, current_state, next_state);
 
-        next_vel = current_vel + next_state*h; // Fwd Euler formula.
+        // Stoermer-Verlet Formulas:
+        next_vel = current_vel + next_state*h;
         next_state = current_state + next_vel*h;
 
-        current_t = next_t; // Take one step in time.
-        current_vel = next_vel;
+        current_t = next_t;         // Take one step in time.
+        current_vel = next_vel;     // Take one step in velocity.
         current_state = next_state; // Take one step in the state.
 
         iteration++;
-
     }
-
     closeOutputFile();
-
 }
 
 double StoermerVerletSolver::computeError(){
@@ -122,11 +122,10 @@ double StoermerVerletSolver::computeError(){
 
         if (norm > max_norm) max_norm = norm;
 
-        current_t = next_t; // Take one step in time.
+        current_t = next_t;         // Take one step in time.
         current_state = next_state; // Take one step in the state.
-        current_vel = next_vel;
+        current_vel = next_vel;     // Take one step in velocity.
 
     }
-
     return max_norm;
 }

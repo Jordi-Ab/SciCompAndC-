@@ -10,7 +10,6 @@ ForwardEulerSolver::ForwardEulerSolver(ODEInterface& an_ODESystem,
                                        const int print_gap){
 
     // Set things for AbstractODE object.
-
     setStepSize(step_size);
     setTimeInterval(initial_time, final_time);
     _ODEObject = &an_ODESystem;
@@ -19,10 +18,14 @@ ForwardEulerSolver::ForwardEulerSolver(ODEInterface& an_ODESystem,
     _initial_state = new Vector(initial_value);
     _output_file_name = output_file_name;
 
+    // Assert min save gap is 1, and max save gap is equal to the number
+    // steps that will be taken.
     if (save_gap <= 0) _save_gap = 1;
     else if (save_gap >= final_time/step_size) _save_gap = final_time;
     else _save_gap = save_gap;
 
+    // Assert min print gap is 1, and max print gap is equal to the number
+    // steps that will be taken.
     if (print_gap <= 0) _print_gap = 1;
     else if (print_gap >= final_time/step_size) _print_gap = final_time;
     else _print_gap = print_gap;
@@ -41,7 +44,7 @@ void ForwardEulerSolver::solve(){
     double h = getStepSize();
 
     openOutputFile(_output_file_name);
-    int iteration = 1;
+    int iteration = 0;
 
     Vector current_state = *_initial_state;
     Vector next_state(current_state);
@@ -116,11 +119,6 @@ double ForwardEulerSolver::computeError(){
         current_state = next_state; // Take one step in the state.
 
     }
-
-    //delete[] current_state;
-    //delete[] next_state;
-    //delete[] true_sol;
-    //delete[] difference;
 
     return max_norm;
 }

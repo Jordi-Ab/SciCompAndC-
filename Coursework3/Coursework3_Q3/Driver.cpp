@@ -5,6 +5,7 @@
 #include "ChebyshevGrid1d.hpp"
 #include "ChebyshevDifferentiationLibrary.hpp"
 
+// Exponential Function evaluated at a vector.
 Vector f(const Vector& x);
 
 int main(){
@@ -34,19 +35,23 @@ int main(){
     std::cout << "M (x) u: " << std::endl;
     std::cout << kroneck2 << std::endl;
 
-    ChebyshevGrid1D grid(5);
-    std::cout << "Coordinates of a Gauss-Lobato grid with 5 points: " << std::endl;
+    // Number of Gauss-Lobatto grid points.
+    int n1 = 4;
+    ChebyshevGrid1D grid(n1);
+    std::cout << "Coordinates of a Gauss-Lobato grid with ";
+    std::cout << n1+1 << " points: " << std::endl;
     std::cout << grid << std::endl;
 
-    int n = 40;
+    // Size of the Differentiation Matrix that will be used.
+    int n2 = 40;
 
     // Instantiate Chebyshev object.
     ChebyshevDifferentiationLibrary chebyshev;
 
-    // 41x41 Gauss–Lobatto nodes in the interval [-1,1].
-    ChebyshevGrid1D mesh(n);
+    // (n+1)x(n+1) Gauss–Lobatto nodes in the interval [-1,1].
+    ChebyshevGrid1D mesh(n2);
 
-    // 41x41 Chebyshev differentiation matrix.
+    // (n+1)x(n+1) Second order Chebyshev Differentiation Matrix.
     Matrix D2 = chebyshev.SecondOrderDifferentiationMatrix(mesh);
 
     // f evaluated at mesh points.
@@ -61,8 +66,8 @@ int main(){
     double error = (ys - second_deriv).CalculateInfinityNorm();
 
     std::cout << "Error of the second derivative of exp(x), ";
-    std::cout << "computed using a 41x41 Chebyshev second order ";
-    std::cout << "differentiation matrix: " << std::endl;
+    std::cout << "computed using a "<<n2+1<<"x"<<n2+1;
+    std::cout << " Chebyshev second order differentiation matrix: " << std::endl;
     std::cout << "Error (inf-norm) = " << error << std::endl;
 
 }

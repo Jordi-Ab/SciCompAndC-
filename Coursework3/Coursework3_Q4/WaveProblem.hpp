@@ -1,3 +1,23 @@
+/****************************************************************************
+ * This class wraps up the discretized version of the two dimensional
+ * Wave Equation given in Question4 of Coursework3. Nameley:
+ *
+ *  u''(t) = (c^2)*L*u
+ *
+ * where L is a two dimensional Discretized Laplacian Operator,
+ * and c is the wave speed constant.
+ *
+ * Laplacian operator is discretized using a Kronecker product between a Second
+ * order Chebyshev Differentiation matrix, and the Identity Matrix.
+ *
+ *i.e. L = D2_x (x) Iy + Ix (x) D2_y
+ *  # (x) -> defined as the kronecker product operand.
+ *  # D2_x -> Second order Chebyshev Differentiation Matrix, defined on an x_grid
+ *    of n+1 Chebyshev Gauss-Lobato nodes.
+ *  # Ix -> Identity matrix with the same size as D2_x.
+ *  # idem for y's
+ ****************************************************************************/
+
 #ifndef WAVEPROBLEM_HPP
 #define WAVEPROBLEM_HPP
 
@@ -21,8 +41,6 @@ public:
     // Compute right-hand side
     void ComputeF( const double t, const Vector& u, Vector& f )const;
 
-    //
-
 private:
 
 /* Important Note:
@@ -30,7 +48,7 @@ private:
     ChebyshevGrid1d objects, so the object can be
     instantiated with a user defined grid,
     not limited to be a Gauss-Lobato grid.
-    As ChebyshevGrid1d "is a" vector, you can
+    As ChebyshevGrid1d "is a" vector, so you can
     also use it as input.*/
 
     // Wave speed constant
@@ -48,19 +66,13 @@ private:
     Matrix* _L;
 
     // Initialize _L instance variable with the values
-    // of and interior discrete laplace operator.
+    // of an interior discrete Laplace operator.
     void initInteriorLaplacian();
 
-    // Get the values that are not on boundary nodes, of a given
-    // vector of states.
-    Vector getInteriorValues(const Vector u) const;
-
     // Get the interior values of a matrix.
-    // i.e. Get rid of first and last column and row
+    // i.e. Get rid of first and last columns and rows
     Matrix getInteriorValues(Matrix m);
 
-
-    void applyBoundaryConditions(const Vector interior_u, Vector& f) const;
 };
 
 #endif // WAVEPROBLEM_HPP

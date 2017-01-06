@@ -5,36 +5,46 @@
 
 int main(){
 
-    // initialize all the necessary info of the problem:
-    const int a = 1;
-    Vector y0(1); y0[0] = 0; // Initial Conditions.
-    double t0 = 0; // initial time.
-    double T = 10; // final time
-    double h=.01; // step size
+    // Initialize all the necessary info of the ODE problem:
 
-    // A folder to store the Output data (Works only in my computer), so
-    // if running from another computer make sure the flag "use_complete_path"
-    // is set to false.
+    const int a = 1;            // Constant of the rhs function.
+    Vector y0(1); y0[0] = 0;    // Initial Conditions.
+    double t0 = 0;              // initial time.
+    double T = 10;              // final time
+    double h=.01;               // step size
+
+
+    /* To store the Data */
+
+    // Flag to know if program should save data on a specified folder.
+    // "true" if you want to save the Data on a specific folder.
+    // If "false", data will get saved either on the home directory,
+    // on the working directory, or somewhere else depending on the computer or the compiler used.
+    bool use_specific_folder = false;
+
+    // A specified folder to store the Output data.
+    // Modify it to be whatever you like, and set "use_specific_folder" to true.
+    // # Best is to specify a folder to avoid data getting saved somewhere random.
     std::string path_data_folder = "/Users/user/Documents/Maestria/SciCompCpp/SciCompCpp_git/Coursework3/OutputData";
-    bool use_complete_path = true;
 
+    // Name of the file where the solution will be stored.
     std::string output_file_name = "fwd_euler_output.dat";
 
-    // Instantiate a Linear ODE that contains the information of this
+    // Instantiate a Linear ODE object that contains the information of this
     // particular problem to be solved.
     LinearODE Q1_rhs(a);
 
     /* Instantiate the method to be used, in this case ForwardEuler,
     and provide all the necessary information for the steps.*/
-    ForwardEulerSolver method(Q1_rhs,y0,t0,T,h,output_file_name,1,1);
+    ForwardEulerSolver method(Q1_rhs, y0, t0, T, h, output_file_name, 100, 100);
 
-    method.setOutputFolder(path_data_folder);
-    method.useCompletePath(use_complete_path);
+    // Set the path where data will be saved.
+    if (use_specific_folder) method.setOutputFolderPath(path_data_folder);
 
     //Solve the IVP by a simple call to solve()
     method.solve();
 
-    // Part2:
+    /* Part2, Error Analysis: */
 
     // set T = 2
     method.setTimeInterval(0, 2);

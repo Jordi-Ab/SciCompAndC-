@@ -1,19 +1,38 @@
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as pt
+import numpy.linalg as la
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import axes3d, Axes3D
 
-pt.rc('text', usetex=True)
-pt.rc('font', family='serif')
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
 
-fig = pt.figure('Wave Equation', figsize=(9,9))
+x_grid = np.loadtxt('OutputData/Q4_xgrid.dat')
+y_grid = np.loadtxt('OutputData/Q4_ygrid.dat')
+array = np.loadtxt('OutputData/StormVerlet_Q4_output.dat')
 
-ts, us[] = np.loadtxt('OutputData/StormVerlet_output.dat', 
-					unpack=True)
+ts = array[:, 0]
+us = array[:,1:]
 
+Nx = len(x_grid)-1
+Ny = len(y_grid)-1
 
-plt1 = fig.add_subplot(1,1,1)
-plt1.set_title('Approximate Solution of Wave Equation')
-plt1.plot(ts,us,'r-')
-plt1.plot(ts,true_sol(ts),'b-')
-plt1.set_xlabel('$time$')
-plt1.set_ylabel('$U_h(x)$')
+for i in range(len(ts)):
+	fig = plt.figure(figsize=(9,9)) #figsize=plt.figaspect(0.5)
+	t=ts[i]
+	# Reshape long 1D results onto 2D grid:
+	uu = np.zeros((Nx+1,Ny+1));
+
+	# Apply boundary conditions.
+	uu[1:-1,1:-1] = us[i].reshape((Nx-1,Ny-1)).T
+
+	# Compute the meshgrid for plotting
+	xx,yy = np.meshgrid(x_grid,y_grid)
+
+	# Create the plot object.
+	ax = fig.add_subplot(111, projection='3d')
+	ax.plot_surface(xx,  yy,  uu, cstride=1,rstride=1,color='w')
+	ax.azim = -138; ax.elev = 25
+	ax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_zlabel('u')
+	plt.title('t = '+str('%.2f' % t)); ax.azim = -138; ax.elev = 38; ax.set_zlim3d(-0.2,1)
+
+plt.show()

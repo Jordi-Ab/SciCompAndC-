@@ -3,13 +3,12 @@
 
 #include <cmath>
 #include "Matrix.hpp"
-#include "ChebyshevGrid1d.hpp"
 
 class ChebyshevDifferentiationLibrary{
 
 public:
 
-    // Default constructor.
+    // Default Constructor.
     ChebyshevDifferentiationLibrary();
 
     /*
@@ -22,6 +21,8 @@ public:
      *  A n by n Matrix object with the entries of a
      *  First Order Chebyshev Differentiation matrix,
      *  where n is the size of the grid.
+     *
+     * (Computed using formulas)
      */
     Matrix FirstOrderDifferentiationMatrix(const Vector& grid);
 
@@ -35,6 +36,8 @@ public:
      *  A n by n Matrix object with the entries of a
      *  Second Order Chebyshev Differentiation matrix,
      *  where n is the size of the grid.
+     *
+     *(Computed using formulas)
      */
     Matrix SecondOrderDifferentiationMatrix(const Vector& grid);
 

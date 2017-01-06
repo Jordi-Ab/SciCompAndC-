@@ -180,7 +180,7 @@ Matrix Matrix::KroneckerProduct( const Matrix& m1) const{
     int m1_n_cols = m1.GetNumberOfColumns();
     Matrix result(mNumRows*m1_n_rows, mNumCols*m1_n_cols);
 
-    /*"cur_row" and "cur_col" are the indices of the
+    /*"cur_row" and "cur_col are the indices of the
     result matrix.*/
     int cur_row = 0;
     int cur_col = 0;
@@ -203,10 +203,10 @@ Matrix Matrix::KroneckerProduct( const Matrix& m1) const{
                 }
             }
             // Restart column of result matrix,
-            // equivalent to a change of line when writing.
             cur_col = 0;
             // Change row of the result matrix
             cur_row += 1;
+            // Equivalent to a change of line when writing.
         }
     }
     return result;
@@ -227,32 +227,6 @@ Matrix Matrix::operator*(const Matrix& m1) const{
         }
     }
     return result;
-}
-
-/*  Added by Giordi Azonos  */
-Vector Matrix::GetColumn(int index) const{
-    assert(index > 0);
-    assert(index <= mNumCols);
-    Vector column(mNumRows);
-
-    for (int r=0; r<mNumRows; r++){
-        column[r] = mData[r][index-1];
-    }
-
-    return column;
-}
-
-/*  Added by Giordi Azonos  */
-Vector Matrix::GetRow(int index) const{
-    assert(index > 0);
-    assert(index <= mNumRows);
-    Vector row(mNumCols);
-
-    for (int c=0; c<mNumCols; c++){
-        row[c] = mData[index-1][c];
-    }
-
-    return row;
 }
 
 // Overloading matrix multiplied by a vector
